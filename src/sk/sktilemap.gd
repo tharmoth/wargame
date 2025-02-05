@@ -3,6 +3,17 @@ class_name SKTileMap extends TileMapLayer
 static var Instance : SKTileMap
 var layer : Dictionary = {}
 
+func get_entities() -> Array[Node]:
+	# Use dictionary as set and cast to array to remove dups
+	var entities_dict : Dictionary = {}
+	for entry in layer:
+		entities_dict[layer[entry]] = null
+	
+	var entities : Array[Node] = []
+	for entity in entities_dict:
+		entities.append(entity)
+	return entities
+
 func _enter_tree() -> void:
 	Instance = self
 
