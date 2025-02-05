@@ -3,23 +3,37 @@ class_name Unit extends Node2D
 var highlighted: bool = false
 var clickbox_clicked: bool = false
 var outline = OutlineComponent.new()
+var activate_outline = OutlineComponent.new()
 @export var team : String = "Goblin"
 var tiles : Array[Vector2i]
 var movement_distance : int = 5
-
+var _activated : bool = true
 
 static var selected_unit : Unit = null
 static var highlighted_unit : Unit = null
+
+func can_be_activated():
+	_activated = false
+	activate_outline.highlight()
+	
+func has_activated():
+	_activated = true
+	activate_outline.unhighlight()
 
 func _ready() -> void:
 	$Clickbox.mouse_entered.connect(_on_mouse_entered)
 	$Clickbox.mouse_exited.connect(_on_mouse_exited)
 	outline.sprite = $Sprite2D
+	activate_outline.sprite = $Sprite2D
+	activate_outline.highlight_color = Color.GREEN
 	
 	call_deferred("add_child", outline)
+	call_deferred("add_child", activate_outline)
 	
 	global_position = SKTileMap.Instance.to_map(global_position)
 	add_to_tilemap()
+	
+	add_to_group("unit")
 	
 func add_to_tilemap() -> void:
 	SKTileMap.Instance.clear_entity(self)
@@ -30,18 +44,19 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("left_click"):
 		var distance = global_position.distance_to(get_global_mouse_position())
 		
-		tiles = Movement.get_valid_tiles(self, movement_distance, "human", true)
+		tiles = Movement.get_valid_tiles(self, movement_distance, team, false)
 		
 		var selected_tile = SKTileMap.Instance.global_to_map(get_global_mouse_position())
 		
 		if selected_unit == self and tiles.find(selected_tile) != -1:
 			global_position = SKTileMap.Instance.to_map(get_global_mouse_position())
 			add_to_tilemap()
+			has_activated()
 			
 			selected_unit = null
 			outline.deselect()
 			selected_unit = null
-		elif highlighted and selected_unit == null:
+		elif highlighted and selected_unit == null and not _activated:
 			selected_unit = self
 			outline.select()
 		queue_redraw()
@@ -64,7 +79,7 @@ func _on_mouse_exited() -> void:
 func _draw() -> void:
 	
 	if selected_unit == self:
-		var enemies = Movement.get_team_zoc("human")
+		var enemies = Movement.get_team_zoc(team)
 		var line = []
 		if highlighted_unit != null:
 			var starting = SKTileMap.Instance.global_to_map(global_position)

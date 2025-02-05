@@ -6,7 +6,7 @@ static func get_team_zoc(team: String) -> Array[Vector2i]:
 	var entities: Array[Node] = SKTileMap.Instance.get_entities()
 	var enemies : Array[Node] = []
 	for entity in entities:
-		if entity.team == team:
+		if entity.team != team:
 			enemies.append(entity)
 	
 	var positions: Array[Vector2i] = []
@@ -76,7 +76,7 @@ static func get_valid_tiles(node: Node2D, distance: int, team: String, debug : b
 	var result = _map_to_grid(valid_tiles_map)
 	var grid = result["grid"]
 	
-	var zoc = get_team_zoc("human")
+	var zoc = get_team_zoc(team)
 	for i in range(len(zoc)):
 		zoc[i] = zoc[i] - Vector2i(result["x_min"], result["y_min"])
 	
@@ -97,7 +97,7 @@ static func get_valid_tiles(node: Node2D, distance: int, team: String, debug : b
 			var neighbor : Vector2i = point + direction
 			if neighbor.x >= 0 and neighbor.x < len(grid) and neighbor.y >= 0 and neighbor.y < len(grid[0]) \
 			and point.x >= 0 and point.x < len(grid) and point.y >= 0 and point.y < len(grid[0]):
-				if grid[neighbor.x][neighbor.y] < distance:
+				if grid[neighbor.x][neighbor.y] < distance and grid[neighbor.x][neighbor.y] > 0:
 					grid[point.x][point.y] = distance
 			
 	# Print the grid for debug

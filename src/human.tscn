@@ -6,7 +6,7 @@
 [node name="Unit4" type="Node2D"]
 position = Vector2(612, 229)
 script = ExtResource("1_qb51t")
-type = "Human"
+team = "player2"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.25, 0.25)
