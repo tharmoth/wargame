@@ -3,6 +3,7 @@ class_name OutlineComponent extends Node2D
 var sprite: Sprite2D
 var _selected: bool = false
 var _highlight: bool = false
+var highlight_color: Color = Utils.BLUE
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -40,7 +41,7 @@ func _draw() -> void:
 		if _selected or _highlight:
 			var outline = adjustedPoly
 			outline.append(outline[0])
-			draw_polyline(outline, Color(0.0, 0.5, 0.5, 1.0), 2.0, true)
+			draw_polyline(outline, highlight_color, 2.0, true)
 	
 		if _selected:
 			draw_polygon(adjustedPoly, [Color(0.0, 0.5, 0.5, 0.3)])

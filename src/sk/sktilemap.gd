@@ -54,3 +54,20 @@ func get_tiles_in_radius(center: Vector2i, radius: float) -> Array[Vector2i]:
 			result.append(Vector2i(x, y))
 	
 	return result
+	
+func line(p0 : Vector2i, p1 : Vector2i) -> Array[Vector2i]:
+	var points : Array[Vector2i] = []
+	var n = diagonal_distance(p0, p1)
+	for step in range(0, n + 1):
+		var t = 0 if n == 0 else step / n
+		points.append(round_point(lerp(Vector2(p0), Vector2(p1), t)))
+	return points
+
+func diagonal_distance(p0 : Vector2i, p1 : Vector2i) -> int:
+	var dx = p1.x - p0.x
+	var dy = p1.y - p0.y
+	return maxi(absi(dx), absi(dy))
+
+func round_point(p : Vector2i):
+	return Vector2i(roundi(p.x), roundi(p.y))
+	

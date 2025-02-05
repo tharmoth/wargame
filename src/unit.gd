@@ -7,6 +7,7 @@ var outline = OutlineComponent.new()
 var tiles : Array[Vector2]
 
 static var selected_unit : Unit = null
+static var highlighted_unit : Unit = null
 
 func _ready() -> void:
 	$Clickbox.mouse_entered.connect(_on_mouse_entered)
@@ -18,8 +19,6 @@ func _ready() -> void:
 	global_position = SKTileMap.Instance.to_map(global_position)
 	add_to_tilemap()
 	
-	
-
 func add_to_tilemap() -> void:
 	SKTileMap.Instance.clear_entity(self)
 	var polygon : PackedVector2Array = $Clickbox/CollisionPolygon2D.polygon
@@ -62,28 +61,45 @@ func _process(delta: float) -> void:
 			
 			selected_unit = null
 			outline.deselect()
-			queue_redraw()
 			selected_unit = null
 		elif highlighted and selected_unit == null:
 			selected_unit = self
 			outline.select()
-			queue_redraw()
+		queue_redraw()
 
 func _on_mouse_entered() -> void:
 	highlighted = true
+	if selected_unit != null and selected_unit.type != type:
+		outline.highlight_color = Utils.RED
+	else:
+		outline.highlight_color = Utils.BLUE
 	outline.highlight()
+	highlighted_unit = self
 	
 func _on_mouse_exited() -> void:
 	highlighted = false
 	outline.unhighlight()
+	if highlighted_unit == self:
+		highlighted_unit = null
 
 func _draw() -> void:
 	if selected_unit == self:
+		var line = []
+		if highlighted_unit != null:
+			var starting = SKTileMap.Instance.global_to_map(global_position)
+			var ending = SKTileMap.Instance.global_to_map(highlighted_unit.global_position)
+			line = SKTileMap.Instance.line(starting, ending)
+		
 		for tile in tiles:
-			if SKTileMap.Instance.get_entity_at_position(SKTileMap.Instance.global_to_map(tile)) != null:
+			var tile_map = SKTileMap.Instance.global_to_map(tile)
+			if SKTileMap.Instance.get_entity_at_position(tile_map) != null:
 				continue
+			var color = Utils.BLUE
+			if line.find(tile_map) != -1:
+				color = Color.YELLOW
 			var rect : Rect2 = Rect2(to_local(tile) - (Vector2)(SKTileMap.Instance.tile_set.tile_size / 2) , SKTileMap.Instance.tile_set.tile_size)
-			draw_rect(rect, Color(0.0, 0.5, 0.5, 0.5))
+			draw_rect(rect, color)
+
 		draw_rect(Rect2(Vector2.ZERO - (Vector2)(SKTileMap.Instance.tile_set.tile_size / 2), SKTileMap.Instance.tile_set.tile_size), Color.GREEN)
 	
 func generate_circle_polygon(radius: float, num_sides: int, position: Vector2) -> PackedVector2Array:
