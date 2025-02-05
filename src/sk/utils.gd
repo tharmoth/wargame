@@ -4,6 +4,8 @@ static var FLOAT_MAX : float = 1.79769e308
 static var FLOAT_MIN : float = -1.79769e308
 static var INT_MAX : int = 9223372036854775807 
 static var INT_MIN : int = -9223372036854775808
+static var BLUE : Color = Color(0.0, 0.5, 0.5, 1.0)
+static var RED : Color = Color.RED
 
 static func GeneratePolygon(sprite: Sprite2D) -> Array[CollisionPolygon2D]:
 	var image = sprite.texture.get_image()
