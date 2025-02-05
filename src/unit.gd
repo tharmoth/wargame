@@ -3,8 +3,10 @@ class_name Unit extends Node2D
 var highlighted: bool = false
 var clickbox_clicked: bool = false
 var outline = OutlineComponent.new()
-@export var type : String = "Goblin"
-var tiles : Array[Vector2]
+@export var team : String = "Goblin"
+var tiles : Array[Vector2i]
+var movement_distance : int = 5
+
 
 static var selected_unit : Unit = null
 static var highlighted_unit : Unit = null
@@ -21,41 +23,18 @@ func _ready() -> void:
 	
 func add_to_tilemap() -> void:
 	SKTileMap.Instance.clear_entity(self)
-	var polygon : PackedVector2Array = $Clickbox/CollisionPolygon2D.polygon
-	for i in range(0, polygon.size()):
-		polygon.set(i, polygon[i] * $Clickbox/CollisionPolygon2D.scale)
-	
-	var x_max : float = Utils.FLOAT_MIN
-	var x_min : float = Utils.FLOAT_MAX
-	var y_max : float = Utils.FLOAT_MIN
-	var y_min : float = Utils.FLOAT_MAX
-	for point in polygon:
-		if point.x > x_max: x_max = point.x
-		if point.x < x_min: x_min = point.x
-		if point.y > y_max: y_max = point.y
-		if point.y < y_min: y_min = point.y
-		
-	for x in range(x_min, x_max + 1, SKTileMap.Instance.tile_set.tile_size.x):
-		for y in range(y_min, y_max + 1, SKTileMap.Instance.tile_set.tile_size.y):
-			if !Geometry2D.is_point_in_polygon(Vector2(x, y), polygon): continue
-			
-			var map_tile : Vector2i = SKTileMap.Instance.global_to_map(global_position + Vector2(x, y))
-			
-			SKTileMap.Instance.add_entity(map_tile, self)
+	var map_tile : Vector2i = SKTileMap.Instance.global_to_map(global_position)
+	SKTileMap.Instance.add_entity(map_tile, self)
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("left_click"):
 		var distance = global_position.distance_to(get_global_mouse_position())
 		
-		tiles = Movement.get_valid_tiles(self)
-		var valid_tiles : Array[Vector2i] = []
-		for tile in tiles:
-			var map_tile = SKTileMap.Instance.global_to_map(tile)
-			valid_tiles.append(map_tile)
+		tiles = Movement.get_valid_tiles(self, movement_distance, "human", true)
 		
 		var selected_tile = SKTileMap.Instance.global_to_map(get_global_mouse_position())
 		
-		if selected_unit == self and valid_tiles.find(selected_tile) != -1:
+		if selected_unit == self and tiles.find(selected_tile) != -1:
 			global_position = SKTileMap.Instance.to_map(get_global_mouse_position())
 			add_to_tilemap()
 			
@@ -69,7 +48,7 @@ func _process(delta: float) -> void:
 
 func _on_mouse_entered() -> void:
 	highlighted = true
-	if selected_unit != null and selected_unit.type != type:
+	if selected_unit != null and selected_unit.team != team:
 		outline.highlight_color = Utils.RED
 	else:
 		outline.highlight_color = Utils.BLUE
@@ -83,21 +62,24 @@ func _on_mouse_exited() -> void:
 		highlighted_unit = null
 
 func _draw() -> void:
+	
 	if selected_unit == self:
+		var enemies = Movement.get_team_zoc("human")
 		var line = []
 		if highlighted_unit != null:
 			var starting = SKTileMap.Instance.global_to_map(global_position)
 			var ending = SKTileMap.Instance.global_to_map(highlighted_unit.global_position)
 			line = SKTileMap.Instance.line(starting, ending)
 		
-		for tile in tiles:
-			var tile_map = SKTileMap.Instance.global_to_map(tile)
+		for tile_map in tiles:
 			if SKTileMap.Instance.get_entity_at_position(tile_map) != null:
 				continue
 			var color = Utils.BLUE
 			if line.find(tile_map) != -1:
 				color = Color.YELLOW
-			var rect : Rect2 = Rect2(to_local(tile) - (Vector2)(SKTileMap.Instance.tile_set.tile_size / 2) , SKTileMap.Instance.tile_set.tile_size)
+			if enemies.find(tile_map) != -1:
+				color = Color.RED
+			var rect : Rect2 = Rect2(to_local(SKTileMap.Instance.map_to_global(tile_map)) - (Vector2)(SKTileMap.Instance.tile_set.tile_size / 2) , SKTileMap.Instance.tile_set.tile_size)
 			draw_rect(rect, color)
 
 		draw_rect(Rect2(Vector2.ZERO - (Vector2)(SKTileMap.Instance.tile_set.tile_size / 2), SKTileMap.Instance.tile_set.tile_size), Color.GREEN)
