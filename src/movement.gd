@@ -1,6 +1,6 @@
 class_name Movement
 
-static var directions = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0)]
+static var DIRECTIONS = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0)]
 
 static func get_team_zoc(team: String) -> Array[Vector2i]:
 	var entities: Array[Node] = SKTileMap.Instance.get_entities()
@@ -12,7 +12,7 @@ static func get_team_zoc(team: String) -> Array[Vector2i]:
 	var positions: Array[Vector2i] = []
 	for enemy in enemies:
 		var map_pos = SKTileMap.Instance.global_to_map(enemy.global_position)
-		for direction in directions:
+		for direction in DIRECTIONS:
 			if SKTileMap.Instance.get_entity_at_position(map_pos + direction) == null:
 				positions.append(map_pos + direction)
 	
@@ -93,7 +93,7 @@ static func get_valid_tiles(node: Node2D, distance: int, team: String, debug : b
 	_flood_fill_distance(grid, Vector2i(len(grid) / 2, len(grid[0]) / 2))
 	
 	for point in zoc:
-		for direction in directions:
+		for direction in DIRECTIONS:
 			var neighbor : Vector2i = point + direction
 			if neighbor.x >= 0 and neighbor.x < len(grid) and neighbor.y >= 0 and neighbor.y < len(grid[0]) \
 			and point.x >= 0 and point.x < len(grid) and point.y >= 0 and point.y < len(grid[0]):
@@ -122,15 +122,15 @@ static func _grow(grid: Array):
 	var rows = grid.size()
 	var cols = grid[0].size()
 	
-	# Define directions for moving up, down, left, right
-	var directions = [Vector2(0, 1), Vector2(1, 0), Vector2(0, -1), Vector2(-1, 0)]
+	# Define DIRECTIONS for moving up, down, left, right
+	var DIRECTIONS = [Vector2(0, 1), Vector2(1, 0), Vector2(0, -1), Vector2(-1, 0)]
 	
 	for x in range(0, rows):
 		for y in range(0, cols):
 			if grid[x][y] == 0:
 				continue
 
-			for direction in directions:
+			for direction in DIRECTIONS:
 				var neighbor = Vector2(x, y) + direction
 				if neighbor.x >= 0 and neighbor.x < rows and neighbor.y >= 0 and neighbor.y < cols:
 					if grid[neighbor.x][neighbor.y] == 0:
@@ -152,14 +152,14 @@ static func _flood_fill_distance(grid: Array, center: Vector2i):
 	queue.append(center)
 	grid[center.x][center.y] = 0  # Distance at center is 0
 
-	# Define directions for moving up, down, left, right
-	#var directions = [Vector2(0, 1), Vector2(1, 0), Vector2(0, -1), Vector2(-1, 0), Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1)]
+	# Define DIRECTIONS for moving up, down, left, right
+	#var DIRECTIONS = [Vector2(0, 1), Vector2(1, 0), Vector2(0, -1), Vector2(-1, 0), Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1)]
 
 	while queue.size() > 0:
 		var current = queue.pop_front()
 		var current_distance = grid[current.x][current.y]
 
-		for direction in directions:
+		for direction in DIRECTIONS:
 			var neighbor = current + direction
 			if neighbor.x >= 0 and neighbor.x < rows and neighbor.y >= 0 and neighbor.y < cols:
 				if grid[neighbor.x][neighbor.y] == -1:  # Check if unvisited

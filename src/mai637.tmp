@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=4 uid="uid://b04ht6lcp6bll"]
+[gd_scene load_steps=8 format=4 uid="uid://b04ht6lcp6bll"]
 
 [ext_resource type="Texture2D" uid="uid://0vatctgjeqkt" path="res://data/Tileset.png" id="1_4hsw7"]
 [ext_resource type="PackedScene" uid="uid://b37ghh2g33fmw" path="res://src/unit.tscn" id="2_2v1yl"]
 [ext_resource type="Script" path="res://src/sk/sktilemap.gd" id="3_hch2e"]
 [ext_resource type="PackedScene" uid="uid://chq7bhahdncm5" path="res://src/human.tscn" id="4_16xkx"]
-[ext_resource type="Script" path="res://src/next_turn_button.gd" id="5_jd13d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_unfa5"]
 texture = ExtResource("1_4hsw7")
@@ -42,39 +41,12 @@ position = Vector2(351, 425)
 position = Vector2(344, 314)
 
 [node name="Unit4" parent="." instance=ExtResource("4_16xkx")]
+team = "human"
 
 [node name="Unit5" parent="." instance=ExtResource("4_16xkx")]
-position = Vector2(613, 417)
+position = Vector2(611, 355)
+team = "human"
 
 [node name="Unit6" parent="." instance=ExtResource("4_16xkx")]
 position = Vector2(612, 293)
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Gui" type="Control" parent="CanvasLayer"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Gui"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="NextButton" type="Button" parent="CanvasLayer/Gui/VBoxContainer"]
-layout_mode = 2
-text = "Next Phase"
-script = ExtResource("5_jd13d")
-
-[node name="PhaseLabel" type="Label" parent="CanvasLayer/Gui/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Start"
+team = "human"

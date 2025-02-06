@@ -12,13 +12,45 @@ var _activated : bool = true
 static var selected_unit : Unit = null
 static var highlighted_unit : Unit = null
 
-func can_be_activated():
+func map_position() -> Vector2i:
+	return SKTileMap.Instance.global_to_map(global_position)
+
+func get_adjacent_units() -> Array[Unit]:
+	var entities : Array[Unit]= []
+	for direction in Movement.DIRECTIONS:
+		var entity = SKTileMap.Instance.get_entity_at_position(map_position() + direction)
+		if entity != null:
+			entities.append(entity)
+	return entities
+
+func pair_off():
+	get_adjacent_units()
+	for entity in get_adjacent_units():
+		if entity != null and entity.team != team:
+			_can_be_activated()
+			return
+
+func start_fight():
+
+	end_phase()	
+
+func start_movement():
+	for entity in get_adjacent_units():
+		if entity != null and entity.team != team:
+			return
+	_can_be_activated()
+
+func end_phase():
+	_has_activated()
+
+func _can_be_activated():
 	_activated = false
 	activate_outline.highlight()
 	
-func has_activated():
+func _has_activated():
 	_activated = true
 	activate_outline.unhighlight()
+	outline.deselect()
 
 func _ready() -> void:
 	$Clickbox.mouse_entered.connect(_on_mouse_entered)
@@ -42,24 +74,51 @@ func add_to_tilemap() -> void:
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("left_click"):
-		var distance = global_position.distance_to(get_global_mouse_position())
+		if TurnManager.get_current_phase().contains("Movement"):
+			do_movement()
+		if TurnManager.get_current_phase().contains("Pair Off"):
+			do_pair()
+		else:
+			do_fight()
+
+func do_pair():
+	var adjacent = get_adjacent_units()
+	if highlighted and selected_unit == null and not _activated:
+		selected_unit = self
+		outline.select()
+		for entity in adjacent:
+			if entity.team != team:
+				entity.outline.select()
 		
-		tiles = Movement.get_valid_tiles(self, movement_distance, team, false)
+	elif highlighted and selected_unit != null and adjacent.find(selected_unit) != -1:
+		selected_unit._has_activated()
+		outline.deselect()
+		selected_unit = null
 		
-		var selected_tile = SKTileMap.Instance.global_to_map(get_global_mouse_position())
+
+func do_fight():
+	if highlighted:
+		print("Ouch!")
+		_has_activated()
+
+func do_movement():
+	var distance = global_position.distance_to(get_global_mouse_position())
+	
+	tiles = Movement.get_valid_tiles(self, movement_distance, team, false)
+	
+	var selected_tile = SKTileMap.Instance.global_to_map(get_global_mouse_position())
+	
+	if selected_unit == self and tiles.find(selected_tile) != -1:
+		global_position = SKTileMap.Instance.to_map(get_global_mouse_position())
+		add_to_tilemap()
+		_has_activated()
 		
-		if selected_unit == self and tiles.find(selected_tile) != -1:
-			global_position = SKTileMap.Instance.to_map(get_global_mouse_position())
-			add_to_tilemap()
-			has_activated()
-			
-			selected_unit = null
-			outline.deselect()
-			selected_unit = null
-		elif highlighted and selected_unit == null and not _activated:
-			selected_unit = self
-			outline.select()
-		queue_redraw()
+		selected_unit = null
+		outline.deselect()
+	elif highlighted and selected_unit == null and not _activated:
+		selected_unit = self
+		outline.select()
+	queue_redraw()
 
 func _on_mouse_entered() -> void:
 	highlighted = true
@@ -98,14 +157,3 @@ func _draw() -> void:
 			draw_rect(rect, color)
 
 		draw_rect(Rect2(Vector2.ZERO - (Vector2)(SKTileMap.Instance.tile_set.tile_size / 2), SKTileMap.Instance.tile_set.tile_size), Color.GREEN)
-	
-func generate_circle_polygon(radius: float, num_sides: int, position: Vector2) -> PackedVector2Array:
-	var angle_delta: float = (PI * 2) / num_sides
-	var vector: Vector2 = Vector2(radius, 0)
-	var polygon: PackedVector2Array
-
-	for _i in num_sides:
-		polygon.append(vector + position)
-		vector = vector.rotated(angle_delta)
-
-	return polygon
