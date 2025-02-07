@@ -4,10 +4,12 @@
 [ext_resource type="Texture2D" uid="uid://k5afcyyhovku" path="res://data/goblin_token.png" id="2_5ikvt"]
 
 [node name="Unit" type="Node2D"]
+z_index = 1
 script = ExtResource("1_y61sw")
-team = "player1"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+show_behind_parent = true
+z_index = -1
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_5ikvt")
 

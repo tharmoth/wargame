@@ -30,6 +30,9 @@ func clear_entity(entity: Node) -> void:
 func get_entity_at_position(position: Vector2i):
 	return layer.get(position)
 
+func get_entity_at_position_global(position: Vector2i):
+	return get_entity_at_position(global_to_map(position))
+
 func global_to_map(point: Vector2) -> Vector2i:
 	return local_to_map(to_local(point))
 	
@@ -81,4 +84,11 @@ func diagonal_distance(p0 : Vector2i, p1 : Vector2i) -> int:
 
 func round_point(p : Vector2i):
 	return Vector2i(roundi(p.x), roundi(p.y))
-	
+
+func get_adjacent_units(map_position : Vector2i) -> Array[Unit]:
+	var entities : Array[Unit]= []
+	for direction in Movement.DIRECTIONS:
+		var entity = SKTileMap.Instance.get_entity_at_position(map_position + direction)
+		if entity != null:
+			entities.append(entity)
+	return entities

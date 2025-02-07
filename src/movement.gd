@@ -64,7 +64,10 @@ static func _map_to_grid(tiles: Array[Vector2i]) -> Dictionary:
 	
 	return result
 
-static func get_valid_tiles(node: Node2D, distance: int, team: String, debug : bool = false) -> Array[Vector2i]:
+static func get_valid_tiles(node: Unit, debug : bool = false) -> Array[Vector2i]:
+	var distance = node.movement_distance
+	var team = node.team
+	
 	# Obtain a list of empty grid positions within the move distance of the unit
 	var valid_tiles_map : Array[Vector2i] = []
 	var tiles_map : Array[Vector2i] = SKTileMap.Instance.get_tiles_in_radius(SKTileMap.Instance.global_to_map(node.global_position), distance)
