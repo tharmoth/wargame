@@ -98,9 +98,11 @@ static func get_valid_tiles(node: Unit, debug : bool = false) -> Array[Vector2i]
 	for point in zoc:
 		for direction in DIRECTIONS:
 			var neighbor : Vector2i = point + direction
+			# If the point is in the grid
 			if neighbor.x >= 0 and neighbor.x < len(grid) and neighbor.y >= 0 and neighbor.y < len(grid[0]) \
 			and point.x >= 0 and point.x < len(grid) and point.y >= 0 and point.y < len(grid[0]):
-				if grid[neighbor.x][neighbor.y] < distance and grid[neighbor.x][neighbor.y] > 0:
+				# if it is within range to move into
+				if grid[neighbor.x][neighbor.y] < distance and grid[neighbor.x][neighbor.y] > -1:
 					grid[point.x][point.y] = distance
 			
 	# Print the grid for debug

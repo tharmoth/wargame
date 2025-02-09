@@ -92,3 +92,17 @@ func get_adjacent_units(map_position : Vector2i) -> Array[Unit]:
 		if entity != null:
 			entities.append(entity)
 	return entities
+
+static func get_adjacent_units_not_of_team(map_position : Vector2i, team : String) -> Array[Unit]:
+	var units : Array[Unit] = []
+	for entity in SKTileMap.Instance.get_adjacent_units(map_position):
+		if entity.team != team:
+			units.append(entity)
+	return units
+
+static func get_adjacent_units_of_team(map_position : Vector2i, team : String) -> Array[Unit]:
+	var units : Array[Unit] = []
+	for entity in SKTileMap.Instance.get_adjacent_units(map_position):
+		if entity.team == team:
+			units.append(entity)
+	return units

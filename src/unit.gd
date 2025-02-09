@@ -2,9 +2,11 @@ class_name Unit extends Node2D
 
 # Game Data (To be moved?)
 @export var team : String = "player1"
-var movement_distance : int = 5
+@export var items : Array[String] = []
+var movement_distance : int = 6
 var tiles : Array[Vector2i] = []
 var fights : Array[Vector2i] = []
+var supports : Array[Vector2i] = []
 
 # Selection Variables
 var can_be_clicked : bool
@@ -32,10 +34,10 @@ func can_activate() -> void:
 func activated() -> void:
 	activate_outline.unhighlight()
 
-func add_to_tilemap() -> void:
+func move_to(map_position : Vector2i) -> void:
+	global_position = SKTileMap.Instance.map_to_global(map_position)
 	SKTileMap.Instance.clear_entity(self)
-	var map_tile : Vector2i = SKTileMap.Instance.global_to_map(global_position)
-	SKTileMap.Instance.add_entity(map_tile, self)
+	SKTileMap.Instance.add_entity(map_position, self)
 
 func get_map_position() -> Vector2i:
 	return SKTileMap.Instance.global_to_map(global_position)
@@ -46,6 +48,10 @@ func draw_movement(tiles_to_move : Array[Vector2i]) -> void:
 
 func draw_fights(fights_to_draw : Array[Vector2i]) -> void:
 	fights = fights_to_draw
+	queue_redraw()
+
+func draw_supports(supports_to_draw : Array[Vector2i]) -> void:
+	supports = supports_to_draw
 	queue_redraw()
 
 #
@@ -61,8 +67,7 @@ func _ready() -> void:
 	call_deferred("add_child", outline)
 	call_deferred("add_child", activate_outline)
 	
-	global_position = SKTileMap.Instance.to_map(global_position)
-	add_to_tilemap()
+	move_to(SKTileMap.Instance.global_to_map(global_position))
 	
 	add_to_group("unit")
 
@@ -80,9 +85,10 @@ func _draw() -> void:
 			draw_rect(rect, color)
 
 		draw_rect(Rect2(Vector2.ZERO - (Vector2)(SKTileMap.Instance.tile_set.tile_size / 2), SKTileMap.Instance.tile_set.tile_size), Color.GREEN)
-	if not fights.is_empty():
-		for fight in fights:
-			draw_line(Vector2.ZERO, to_local(SKTileMap.Instance.map_to_global(fight)), Color.RED, 10, true)
+	for fight in fights:
+		draw_line(Vector2.ZERO, to_local(SKTileMap.Instance.map_to_global(fight)), Color.RED, 10, true)
+	for support in supports:
+		draw_line(Vector2.ZERO, to_local(SKTileMap.Instance.map_to_global(support)), Color.YELLOW, 10, true)
 #
 # Private
 #

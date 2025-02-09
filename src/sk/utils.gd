@@ -35,3 +35,36 @@ static func GeneratePolygon(sprite: Sprite2D) -> Array[CollisionPolygon2D]:
 		collisionPolygons.append(collisionPolygon)
 		
 	return collisionPolygons
+
+static func roll_dice(dice_string : String) -> int:
+	var drop_lowest : bool = dice_string.ends_with("l")
+	if drop_lowest: dice_string = dice_string.substr(0, dice_string.length() - 1)
+	
+	var damage : int = 0
+	var num_dice_loc : int = dice_string.find("d")
+	var num_dice : int = 0
+	var dice_loc : int = dice_string.find("+")
+	var dice : int = 0
+	
+	var addition : int = 0
+	if num_dice_loc > -1: num_dice = int(dice_string.substr(0, num_dice_loc))
+	
+	dice = int(dice_string.substr(num_dice_loc + 1, dice_loc - 2)) if dice_loc > -1 else int(dice_string.substr(num_dice_loc + 1))
+	
+	if dice_loc > -1:
+		addition = int(dice_string.substr(dice_loc + 1))
+	elif dice_loc == -1 and num_dice_loc == -1:
+		damage = int(dice_string)
+		
+	var rolls : Array[int] = []
+	for i in range(0, num_dice):
+		rolls.append(randi_range(1, dice))
+	if drop_lowest: rolls.remove_at(rolls.find(min(rolls)))
+	damage = sum(rolls) + addition
+	return damage
+
+static func sum(list):
+	var total = 0
+	for value in list:
+		total = total + value
+	return total

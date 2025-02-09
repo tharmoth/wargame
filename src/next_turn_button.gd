@@ -37,6 +37,15 @@ func _ready() -> void:
 	var pairOffPhase = PairOffPhase.new()
 	phases.append(pairOffPhase)
 	
+	var supportPhase = SupportPhase.new()
+	supportPhase.get_combats = pairOffPhase.get_combats
+	phases.append(supportPhase)
+	
+	var fightPhase = FightPhase.new()
+	fightPhase.get_combats = pairOffPhase.get_combats
+	fightPhase.get_supports = supportPhase.get_supports
+	phases.append(fightPhase)
+	
 
 func _pressed() -> void:
 	var current_index : int = phases.find(current_phase)
