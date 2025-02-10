@@ -1,6 +1,6 @@
 class_name Movement
 
-static var DIRECTIONS = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0)]
+static var DIRECTIONS : Array[Vector2i] = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0)]
 
 static func get_team_zoc(team: String) -> Array[Vector2i]:
 	var entities: Array[Node] = SKTileMap.Instance.get_entities()
@@ -11,7 +11,7 @@ static func get_team_zoc(team: String) -> Array[Vector2i]:
 	
 	var positions: Array[Vector2i] = []
 	for enemy in enemies:
-		var map_pos = SKTileMap.Instance.global_to_map(enemy.global_position)
+		var map_pos : Vector2i = SKTileMap.Instance.global_to_map(enemy.global_position)
 		for direction in DIRECTIONS:
 			if SKTileMap.Instance.get_entity_at_position(map_pos + direction) == null:
 				positions.append(map_pos + direction)
@@ -65,8 +65,8 @@ static func _map_to_grid(tiles: Array[Vector2i]) -> Dictionary:
 	return result
 
 static func get_valid_tiles(node: Unit, debug : bool = false) -> Array[Vector2i]:
-	var distance = node.movement_distance
-	var team = node.team
+	var distance : int = node.stats.movement
+	var team: String  = node.team
 	
 	# Obtain a list of empty grid positions within the move distance of the unit
 	var valid_tiles_map : Array[Vector2i] = []
@@ -76,10 +76,10 @@ static func get_valid_tiles(node: Unit, debug : bool = false) -> Array[Vector2i]
 		if current == null || current == node:
 			valid_tiles_map.append(map_tile)
 	
-	var result = _map_to_grid(valid_tiles_map)
-	var grid = result["grid"]
+	var result: Dictionary = _map_to_grid(valid_tiles_map)
+	var grid               = result["grid"]
 	
-	var zoc = get_team_zoc(team)
+	var zoc: Array[Vector2i] = get_team_zoc(team)
 	for i in range(len(zoc)):
 		zoc[i] = zoc[i] - Vector2i(result["x_min"], result["y_min"])
 	
@@ -124,11 +124,11 @@ static func get_valid_tiles(node: Unit, debug : bool = false) -> Array[Vector2i]
 	return valid_points_map
 
 static func _grow(grid: Array):
-	var rows = grid.size()
-	var cols = grid[0].size()
+	var rows: int = grid.size()
+	var cols      = grid[0].size()
 	
 	# Define DIRECTIONS for moving up, down, left, right
-	var DIRECTIONS = [Vector2(0, 1), Vector2(1, 0), Vector2(0, -1), Vector2(-1, 0)]
+	var DIRECTIONS: Array[Variant] = [Vector2(0, 1), Vector2(1, 0), Vector2(0, -1), Vector2(-1, 0)]
 	
 	for x in range(0, rows):
 		for y in range(0, cols):
@@ -147,11 +147,11 @@ static func _grow(grid: Array):
 				grid[x][y] = 0
 
 static func _flood_fill_distance(grid: Array, center: Vector2i):
-	var rows = grid.size()
-	var cols = grid[0].size()
+	var rows: int = grid.size()
+	var cols      = grid[0].size()
 
 	# Create a queue for flood fill
-	var queue = []
+	var queue: Array[Variant] = []
 
 	# Add the center to the queue
 	queue.append(center)
@@ -172,10 +172,9 @@ static func _flood_fill_distance(grid: Array, center: Vector2i):
 					queue.append(neighbor)
 
 static func _print_grid(grid: Array):
-	var rows = grid.size()
-	var cols = grid[0].size()
+	var rows: int = grid.size()
+	var cols      = grid[0].size()
 	for x in range(0, rows):
-		var row : Array[Vector2i] = []
 		var string : String = ""
 		for y in range(0, cols):
 			string = string + " " + str(grid[x][y]).lpad(2)

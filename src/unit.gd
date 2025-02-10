@@ -2,8 +2,8 @@ class_name Unit extends Node2D
 
 # Game Data (To be moved?)
 @export var team : String = "player1"
-@export var items : Array[String] = []
-var movement_distance : int = 6
+
+@export var stats : Stats = Stats.new()
 var tiles : Array[Vector2i] = []
 var fights : Array[Vector2i] = []
 var supports : Array[Vector2i] = []

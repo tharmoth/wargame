@@ -1,0 +1,264 @@
+[gd_scene load_steps=3 format=3 uid="uid://ce4b43d31pyc5"]
+
+[ext_resource type="Script" path="res://src/gui/stats_panel.gd" id="1_8wys6"]
+[ext_resource type="Texture2D" uid="uid://ynqhuujy1oem" path="res://data/MT_Sword.png" id="1_70txi"]
+
+[node name="Player1Stats" type="HBoxContainer"]
+script = ExtResource("1_8wys6")
+
+[node name="StatPanel" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="StatPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatPanel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="IconRect" type="TextureRect" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+texture = ExtResource("1_70txi")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Warrior of Minas Tirith"
+horizontal_alignment = 1
+
+[node name="ItemsLabel" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Sword, Shield"
+
+[node name="StatsPanel" type="PanelContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+
+[node name="MovementLabel" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "6"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Mv"
+horizontal_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+
+[node name="FightValueLabel" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer2/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "4
+"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Fv"
+horizontal_alignment = 1
+
+[node name="MarginContainer4" type="MarginContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer4"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer4/VBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+
+[node name="StrengthLabel" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer4/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "3"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer4/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "S"
+horizontal_alignment = 1
+
+[node name="MarginContainer5" type="MarginContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer5"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer5/VBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+
+[node name="DefenseLabel" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer5/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "5"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer5/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "D"
+horizontal_alignment = 1
+
+[node name="MarginContainer6" type="MarginContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer6"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer6/VBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+
+[node name="AttacksLabel" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer6/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "1"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer6/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "A"
+horizontal_alignment = 1
+
+[node name="MarginContainer7" type="MarginContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer7"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer7/VBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+
+[node name="WoundsLabel" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer7/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "1"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer7/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "W"
+horizontal_alignment = 1
+
+[node name="MarginContainer8" type="MarginContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer8"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer8/VBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+
+[node name="CourgeLabel" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer8/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "7+"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="StatPanel/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/StatsPanel/HBoxContainer/MarginContainer8/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "C"
+horizontal_alignment = 1

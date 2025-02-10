@@ -68,3 +68,4 @@ static func sum(list):
 	for value in list:
 		total = total + value
 	return total
+	

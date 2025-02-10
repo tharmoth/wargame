@@ -41,9 +41,15 @@ func _ready() -> void:
 	supportPhase.get_combats = pairOffPhase.get_combats
 	phases.append(supportPhase)
 	
+	var supportPhase2 = SupportPhase.new()
+	supportPhase2.get_combats = pairOffPhase.get_combats
+	supportPhase2.team = "player2"
+	phases.append(supportPhase2)
+	
 	var fightPhase = FightPhase.new()
 	fightPhase.get_combats = pairOffPhase.get_combats
-	fightPhase.get_supports = supportPhase.get_supports
+	fightPhase.get_supports1 = supportPhase.get_supports
+	fightPhase.get_supports2 = supportPhase2.get_supports
 	phases.append(fightPhase)
 	
 

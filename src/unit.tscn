@@ -1,11 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://b37ghh2g33fmw"]
+[gd_scene load_steps=5 format=3 uid="uid://b37ghh2g33fmw"]
 
 [ext_resource type="Script" path="res://src/unit.gd" id="1_y61sw"]
 [ext_resource type="Texture2D" uid="uid://k5afcyyhovku" path="res://data/goblin_token.png" id="2_5ikvt"]
+[ext_resource type="Script" path="res://src/stats.gd" id="2_itk8f"]
+
+[sub_resource type="Resource" id="Resource_dnlab"]
+resource_local_to_scene = true
+script = ExtResource("2_itk8f")
+unit_name = "Warrior of Minas Tirith"
+items = Array[String](["sword", "shield"])
+movement = 6
+fight_value = 4
+strength = 3
+defense = 6
+attacks = 1
+wounds = 1
+courage = 6
 
 [node name="Unit" type="Node2D"]
 z_index = 1
 script = ExtResource("1_y61sw")
+stats = SubResource("Resource_dnlab")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 show_behind_parent = true

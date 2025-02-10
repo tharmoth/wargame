@@ -41,7 +41,9 @@ func _draw() -> void:
 		if _selected or _highlight:
 			var outline = adjustedPoly
 			outline.append(outline[0])
-			draw_polyline(outline, highlight_color, 2.0, true)
+			var color = highlight_color
+			color.a = .5
+			draw_polyline(outline, color, 2.0, true)
 	
 		if _selected:
 			draw_polygon(adjustedPoly, [Color(0.0, 0.5, 0.5, 0.3)])
