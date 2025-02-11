@@ -8,7 +8,7 @@ static var BLUE : Color = Color(0.0, 0.5, 0.5, 1.0)
 static var RED : Color = Color.RED
 
 static func GeneratePolygon(sprite: Sprite2D) -> Array[CollisionPolygon2D]:
-	var image = sprite.texture.get_image()
+	var image : Image = sprite.texture.get_image()
 	if sprite.flip_v: image.flip_x()
 	if sprite.flip_h: image.flip_x()
 	if sprite.region_enabled: image.get_region(sprite.region_rect)
@@ -18,18 +18,18 @@ static func GeneratePolygon(sprite: Sprite2D) -> Array[CollisionPolygon2D]:
 	
 	image.resize(x, y, Image.INTERPOLATE_NEAREST)
 	
-	var bitmap = BitMap.new()
+	var bitmap : BitMap = BitMap.new()
 	bitmap.create_from_image_alpha(image)
 
 	var polys : Array[PackedVector2Array] = bitmap.opaque_to_polygons(Rect2i(Vector2i.ZERO, image.get_size()), 1)
 	var collisionPolygons : Array[CollisionPolygon2D] = []
-	for poly in polys:
+	for poly : PackedVector2Array in polys:
 		pass
-		var collisionPolygon = CollisionPolygon2D.new()
+		var collisionPolygon : CollisionPolygon2D = CollisionPolygon2D.new()
 		collisionPolygon.polygon = poly
 		collisionPolygon.rotation = sprite.rotation
 		var copy : PackedVector2Array = collisionPolygon.polygon
-		for i in range(0, copy.size()):
+		for i : int in range(0, copy.size()):
 			copy.set(i, copy[i] - (Vector2) (image.get_size() / 2))
 		collisionPolygon.polygon = copy
 		collisionPolygons.append(collisionPolygon)
@@ -57,15 +57,20 @@ static func roll_dice(dice_string : String) -> int:
 		damage = int(dice_string)
 		
 	var rolls : Array[int] = []
-	for i in range(0, num_dice):
+	for i : int in range(0, num_dice):
 		rolls.append(randi_range(1, dice))
 	if drop_lowest: rolls.remove_at(rolls.find(min(rolls)))
 	damage = sum(rolls) + addition
 	return damage
 
-static func sum(list):
-	var total = 0
-	for value in list:
+static func sum(list: Array[int]) -> int:
+	var total : int = 0
+	for value : int in list:
 		total = total + value
 	return total
-	
+
+static func max(list: Array[int]) -> int:
+	var max : int = -1000000
+	for value : int in list:
+		if value > max: max = value
+	return max

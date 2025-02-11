@@ -10,12 +10,16 @@ var supports : Array[Vector2i] = []
 
 # Selection Variables
 var can_be_clicked : bool
-var outline = OutlineComponent.new()
-var activate_outline = OutlineComponent.new()
+var outline : OutlineComponent = OutlineComponent.new()
+var activate_outline : OutlineComponent = OutlineComponent.new()
 
 #
 # Public
 #
+func kill() -> void:
+	SKTileMap.Instance.clear_entity(self)
+	queue_free()
+
 func select() -> void:
 	outline.select()
 	
@@ -73,21 +77,21 @@ func _ready() -> void:
 
 func _draw() -> void:
 	if not tiles.is_empty():
-		var enemies = Movement.get_team_zoc(team)
+		var enemies : Array[Vector2i] = Movement.get_team_zoc(team)
 		
-		for tile_map in tiles:
+		for tile_map : Vector2i in tiles:
 			if SKTileMap.Instance.get_entity_at_position(tile_map) != null:
 				continue
-			var color = Utils.BLUE
+			var color : Color = Utils.BLUE
 			if enemies.find(tile_map) != -1:
 				color = Color.RED
 			var rect : Rect2 = Rect2(to_local(SKTileMap.Instance.map_to_global(tile_map)) - (Vector2)(SKTileMap.Instance.tile_set.tile_size / 2) , SKTileMap.Instance.tile_set.tile_size)
 			draw_rect(rect, color)
 
 		draw_rect(Rect2(Vector2.ZERO - (Vector2)(SKTileMap.Instance.tile_set.tile_size / 2), SKTileMap.Instance.tile_set.tile_size), Color.GREEN)
-	for fight in fights:
+	for fight : Vector2i in fights:
 		draw_line(Vector2.ZERO, to_local(SKTileMap.Instance.map_to_global(fight)), Color.RED, 10, true)
-	for support in supports:
+	for support : Vector2i in supports:
 		draw_line(Vector2.ZERO, to_local(SKTileMap.Instance.map_to_global(support)), Color.YELLOW, 10, true)
 #
 # Private

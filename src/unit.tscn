@@ -20,6 +20,7 @@ courage = 6
 [node name="Unit" type="Node2D"]
 z_index = 1
 script = ExtResource("1_y61sw")
+team = null
 stats = SubResource("Resource_dnlab")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

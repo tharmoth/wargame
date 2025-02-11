@@ -1,3 +1,5 @@
+extends Node
+
 func show_stats(stats : Stats) -> void:
 	%MovementLabel.text = str(stats.movement)
 	%FightValueLabel.text = str(stats.fight_value)
@@ -10,9 +12,10 @@ func show_stats(stats : Stats) -> void:
 	%NameLabel.text = stats.unit_name
 	
 	var item_string : String = ""
-	for item in stats.items:
+	for item : String in stats.items:
 		item_string = item_string + item + ", "
 	item_string = item_string.substr(0, item_string.length() - 2)
 	%ItemsLabel.text = item_string
+	%IconRect.texture = stats.icon
 	%IconRect.texture = stats.icon
 	%IconRect.texture = stats.icon

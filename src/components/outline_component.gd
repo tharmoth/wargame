@@ -30,18 +30,18 @@ func unhighlight() -> void:
 
 func _draw() -> void:
 	
-	var polys_to_draw = get_children()
+	var polys_to_draw : Array[Node] = get_children()
 	
-	for poly in polys_to_draw:
+	for poly : CollisionPolygon2D in polys_to_draw:
 		var adjustedPoly : PackedVector2Array = poly.polygon
 		
-		for i in range(0, adjustedPoly.size()):
+		for i : int in range(0, adjustedPoly.size()):
 			adjustedPoly.set(i, to_local(poly.to_global(adjustedPoly[i])))
 			
 		if _selected or _highlight:
-			var outline = adjustedPoly
+			var outline : PackedVector2Array = adjustedPoly
 			outline.append(outline[0])
-			var color = highlight_color
+			var color : Color = highlight_color
 			color.a = .5
 			draw_polyline(outline, color, 2.0, true)
 	

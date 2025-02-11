@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://clf63ccekstah"]
+
+[ext_resource type="Script" path="res://src/gui/roll_row.gd" id="1_3fdin"]
+
+[node name="RollRow" type="PanelContainer"]
+script = ExtResource("1_3fdin")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Label" type="Label" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Warrior of Minas Tirith fights Moria Goblin"

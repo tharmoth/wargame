@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://b04ht6lcp6bll"]
+[gd_scene load_steps=23 format=4 uid="uid://b04ht6lcp6bll"]
 
 [ext_resource type="Texture2D" uid="uid://0vatctgjeqkt" path="res://data/Tileset.png" id="1_4hsw7"]
 [ext_resource type="PackedScene" uid="uid://b37ghh2g33fmw" path="res://src/unit.tscn" id="2_2v1yl"]
@@ -13,9 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://ctul66n8lheb1" path="res://data/MG_Spear_token.png" id="9_jwldu"]
 [ext_resource type="Script" path="res://src/gui/gui.gd" id="11_4my8c"]
 [ext_resource type="PackedScene" uid="uid://ce4b43d31pyc5" path="res://src/gui/stats_panel.tscn" id="12_yb08b"]
-[ext_resource type="AudioStream" uid="uid://cd5cb7rg0hql" path="res://data/sfx/dice1.wav" id="15_26fok"]
-[ext_resource type="AudioStream" uid="uid://ym6fhs6i51rr" path="res://data/sfx/dice2.wav" id="16_kebbf"]
-[ext_resource type="AudioStream" uid="uid://bc0ommhcdp18r" path="res://data/sfx/dice3.wav" id="17_l51fq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_unfa5"]
 texture = ExtResource("1_4hsw7")
@@ -117,12 +114,6 @@ attacks = 1
 wounds = 1
 courage = 6
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6xkd4"]
-streams_count = 3
-stream_0/stream = ExtResource("15_26fok")
-stream_1/stream = ExtResource("16_kebbf")
-stream_2/stream = ExtResource("17_l51fq")
-
 [node name="Node2D" type="Node2D"]
 position = Vector2(1, 0)
 
@@ -136,7 +127,6 @@ script = ExtResource("3_hch2e")
 
 [node name="Unit" parent="." instance=ExtResource("2_2v1yl")]
 position = Vector2(579, 329)
-team = "player1"
 stats = SubResource("Resource_sd26x")
 
 [node name="Sprite2D" parent="Unit" index="0"]
@@ -144,7 +134,6 @@ texture = ExtResource("4_r5m01")
 
 [node name="Unit2" parent="." instance=ExtResource("2_2v1yl")]
 position = Vector2(513, 330)
-team = "player1"
 stats = SubResource("Resource_5bel7")
 
 [node name="Sprite2D" parent="Unit2" index="0"]
@@ -152,7 +141,6 @@ texture = ExtResource("5_08co2")
 
 [node name="Unit3" parent="." instance=ExtResource("2_2v1yl")]
 position = Vector2(448, 331)
-team = "player1"
 stats = SubResource("Resource_7np8s")
 
 [node name="Sprite2D" parent="Unit3" index="0"]
@@ -210,95 +198,76 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Start"
 
-[node name="FightGui" type="HBoxContainer" parent="Gui/Control/VBoxContainer"]
-unique_name_in_owner = true
+[node name="HBoxContainer" type="HBoxContainer" parent="Gui/Control/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Player1Stats" parent="Gui/Control/VBoxContainer/FightGui" instance=ExtResource("12_yb08b")]
+[node name="Player1Stats" parent="Gui/Control/VBoxContainer/HBoxContainer" instance=ExtResource("12_yb08b")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Center" type="VBoxContainer" parent="Gui/Control/VBoxContainer/FightGui"]
+[node name="Center" type="VBoxContainer" parent="Gui/Control/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Panel" type="MarginContainer" parent="Gui/Control/VBoxContainer/FightGui/Center"]
+[node name="Panel" type="MarginContainer" parent="Gui/Control/VBoxContainer/HBoxContainer/Center"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="PanelContainer" type="PanelContainer" parent="Gui/Control/VBoxContainer/FightGui/Center"]
+[node name="PanelContainer" type="PanelContainer" parent="Gui/Control/VBoxContainer/HBoxContainer/Center"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 1.2
 
-[node name="MarginContainer" type="MarginContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Gui/Control/VBoxContainer/HBoxContainer/Center/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Statsbox" type="VBoxContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer"]
+[node name="Statsbox" type="VBoxContainer" parent="Gui/Control/VBoxContainer/HBoxContainer/Center/PanelContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Gui/Control/VBoxContainer/HBoxContainer/Center/PanelContainer/MarginContainer/Statsbox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
+[node name="Label" type="Label" parent="Gui/Control/VBoxContainer/HBoxContainer/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
 layout_mode = 2
-text = "Duel Roll"
+text = "Duel"
 
-[node name="Control" type="Control" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
+[node name="Control" type="Control" parent="Gui/Control/VBoxContainer/HBoxContainer/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
+[node name="Label2" type="Label" parent="Gui/Control/VBoxContainer/HBoxContainer/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
 layout_mode = 2
 text = "Highest Roll Wins"
 
-[node name="HSeparator2" type="HSeparator" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
+[node name="Label2" type="Label" parent="Gui/Control/VBoxContainer/HBoxContainer/Center/PanelContainer/MarginContainer/Statsbox"]
+layout_mode = 2
+text = "[Space] Roll to Duel"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Gui/Control/VBoxContainer/HBoxContainer/Center/PanelContainer/MarginContainer/Statsbox"]
 layout_mode = 2
 
-[node name="PanelContainer2" type="PanelContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox/PanelContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="Gui/Control/VBoxContainer/HBoxContainer/Center/PanelContainer/MarginContainer/Statsbox/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="RollButton" type="Button" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox/PanelContainer2/MarginContainer"]
+[node name="Label3" type="Label" parent="Gui/Control/VBoxContainer/HBoxContainer/Center/PanelContainer/MarginContainer/Statsbox/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Warrior of Minas Tirith duels Moria Goblin"
+
+[node name="Player2Stats" parent="Gui/Control/VBoxContainer/HBoxContainer" instance=ExtResource("12_yb08b")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
-text = "[Space] Roll To Duel
-"
-
-[node name="HSeparator" type="HSeparator" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
-layout_mode = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="RollContainer" type="VBoxContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox/ScrollContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Player2Stats" parent="Gui/Control/VBoxContainer/FightGui" instance=ExtResource("12_yb08b")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="DiceRoll" type="AudioStreamPlayer2D" parent="Gui/Control"]
-unique_name_in_owner = true
-stream = SubResource("AudioStreamRandomizer_6xkd4")
 
 [editable path="Unit"]
 [editable path="Unit2"]
