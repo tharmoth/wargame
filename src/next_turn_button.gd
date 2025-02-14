@@ -84,7 +84,7 @@ func _pressed() -> void:
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("left_click") and current_phase != null:
-		current_phase.mouse_pressed(get_global_mouse_position())
+		current_phase.mouse_pressed(SKTileMap.Instance.get_global_mouse_position())
 	disabled = not (current_phase == null or current_phase != null and current_phase.can_end_phase())
 #
 # Private

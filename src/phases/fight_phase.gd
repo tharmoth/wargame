@@ -25,6 +25,7 @@ func can_end_phase() -> bool:
 	return _combats.is_empty()
 
 func start_phase() -> void:
+	_current_phase = "Duel"
 	_combats = get_combats.call()
 	_supports = get_supports1.call()
 	_supports.merge(get_supports2.call())
@@ -33,6 +34,9 @@ func start_phase() -> void:
 		for unit : Unit in combat:
 			if unit.team == team:
 				unit.can_activate()
+				
+	if _combats.is_empty():
+		TurnManager.end_phase()
 
 func end_phase() -> void:
 	for unit : Unit in WargameUtils.get_units():
@@ -45,6 +49,9 @@ func mouse_exit(unit : Unit) -> void:
 	pass
 	
 func mouse_pressed(global_position : Vector2) -> void:
+	if _current_phase != "Duel" or not _selected_combat.is_empty():
+		print(_current_phase)
+		return
 	var map_position : Vector2i = SKTileMap.Instance.global_to_map(global_position)
 	var unit : Unit = SKTileMap.Instance.get_entity_at_position(map_position)
 	if unit != null and unit.activate_outline._highlight:
@@ -67,19 +74,17 @@ func mouse_pressed(global_position : Vector2) -> void:
 				break
 
 func button_pressed() -> void:
-	if _selected_combat.is_empty():
-		GUI.hide_fight_gui()
-		return
-
 	if _current_phase == "Duel":
 		var duel_result : Array[Array] = _duel(_team1, _team2)
 		_winners = duel_result[0]
 		_losers = duel_result[1]
-		_current_phase = "Knockback"
-	elif _current_phase == "Knockback":
 		_knockback_losers(_losers)
 		_current_phase = "Strike"
+	# elif _current_phase == "Knockback":
+	# 	_knockback_losers(_losers)
+		_current_phase = "Strike"
 	elif _current_phase == "Strike":
+		_current_phase = "End"
 		_deal_strikes(_winners, _losers)
 		_clean_up_combat()
 		_selected_combat = []
@@ -157,41 +162,7 @@ func _duel(team1 : Array[Unit], team2 : Array[Unit]) -> Array[Array]:
 
 	return [winners, losers]
 
-func _knockback_losers(losers : Array[Unit]) -> void:
-	for unit : Unit in losers:
-		var valid_adjacent : Array[Vector2i] = []
-		for direction : Vector2i in Movement.DIRECTIONS:
-			var pos : Vector2i = unit.get_map_position() + direction
-			if SKTileMap.Instance.get_entity_at_position(pos) != null:
-				continue
-			var enemies : Array[Unit] = SKTileMap.get_adjacent_units_not_of_team(pos, unit.team)
-			if enemies.is_empty():
-				valid_adjacent.append(pos)
-		
-		if valid_adjacent.is_empty():
-			var found : bool = false
-			for adjacent_ally : Unit in SKTileMap.get_adjacent_units_of_team(unit.get_map_position(), unit.team):
-				var location : Vector2i = adjacent_ally.get_map_position()
-				var returned : bool = _make_way(adjacent_ally, unit)
-				if returned:
-					unit.move_to(location)
-					found = true
-					break
-			if not found:
-				unit.kill()
-		else:
-			var adjacent_units : Array[Unit] = SKTileMap.get_adjacent_units_not_of_team(unit.get_map_position(), unit.team)
-			var found : bool = false
-			for adjacent_unit : Unit in adjacent_units:
-				var prefered : Vector2i = 2 * unit.get_map_position() - adjacent_unit.get_map_position()
-				if prefered in valid_adjacent:
-					unit.move_to(prefered)
-					found = true
-					break
-			if not found:
-				unit.move_to(valid_adjacent[0])
-
-func _make_way(unit : Unit, requestor : Unit) -> bool:
+func _get_valid_movement_options(unit : Unit) -> Array[Vector2i]:
 	var valid_adjacent : Array[Vector2i] = []
 	for direction : Vector2i in Movement.DIRECTIONS:
 		var pos : Vector2i = unit.get_map_position() + direction
@@ -200,6 +171,40 @@ func _make_way(unit : Unit, requestor : Unit) -> bool:
 		var enemies : Array[Unit] = SKTileMap.get_adjacent_units_not_of_team(pos, unit.team)
 		if enemies.is_empty():
 			valid_adjacent.append(pos)
+	return valid_adjacent
+
+func _knockback_losers(losers : Array[Unit]) -> void:
+	for unit : Unit in losers:
+		var valid_adjacent : Array[Vector2i] = _get_valid_movement_options(unit)
+		
+		for adjacent_ally : Unit in SKTileMap.get_adjacent_units_of_team(unit.get_map_position(), unit.team):
+			if _is_in_combat(adjacent_ally):
+				continue
+			var allies_adjacent : Array[Vector2i] = _get_valid_movement_options(adjacent_ally)
+			if not allies_adjacent.is_empty():
+				valid_adjacent.append(adjacent_ally.get_map_position())
+
+		# Prefer to move directly away from the opponent find locations opposite of the opponent
+		var preferred_locations : Array[Vector2i] = []
+		var adjacent_enemies : Array[Unit] = SKTileMap.get_adjacent_units_not_of_team(unit.get_map_position(), unit.team)
+		for enemy : Unit in adjacent_enemies:
+			var direction : Vector2i = unit.get_map_position() - enemy.get_map_position()
+			preferred_locations.append(unit.get_map_position() + direction)
+
+		var found : bool = false
+		for location : Vector2i in preferred_locations:
+			if location in valid_adjacent:
+				var adjacent_ally : Unit = SKTileMap.Instance.get_entity_at_position(location)
+				if adjacent_ally != null:
+					_make_way(adjacent_ally, unit)
+				unit.move_to(location)
+				found = true
+				break
+		if not found and not valid_adjacent.is_empty():
+			unit.move_to(valid_adjacent[0])
+
+func _make_way(unit : Unit, requestor : Unit) -> bool:
+	var valid_adjacent : Array[Vector2i] = _get_valid_movement_options(unit)
 	
 	if valid_adjacent.is_empty():
 		return false
@@ -276,3 +281,9 @@ func _get_max_roll(rolls : Array[int]) -> int:
 	for roll : int in rolls:
 		max_roll = max(max_roll, roll)
 	return max_roll
+
+func _is_in_combat(unit : Unit) -> bool:
+	for combat : Array[Unit] in _combats:
+		if unit in combat:
+			return true
+	return false

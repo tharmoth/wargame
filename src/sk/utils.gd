@@ -74,3 +74,6 @@ static func max(list: Array[int]) -> int:
 	for value : int in list:
 		if value > max: max = value
 	return max
+
+static func noise_norm(noise : FastNoiseLite, position : Vector2) -> float:
+	return (noise.get_noise_2d(position.x, position.y) + 1) / 2.0

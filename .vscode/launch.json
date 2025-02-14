@@ -10,10 +10,24 @@
             "type": "godot",
             "request": "launch",
             "project": "${workspaceFolder}",
+            "address": "127.0.0.1",
+	        "port": 6007,
+
+            // engine command line flags
+            "profiling": false,
+            "single_threaded_scene": false,
             "debug_collisions": false,
             "debug_paths": false,
             "debug_navigation": false,
-            "additional_options": ""
+            "debug_avoidance": false,
+            "debug_stringnames": false,
+            "frame_delay": 0,
+            "time_scale": 1.0,
+            "disable_vsync": false,
+
+            "debugServer": 6006
+            // anything else
+
         }
     ]
 }
