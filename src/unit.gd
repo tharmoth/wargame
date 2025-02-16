@@ -58,6 +58,10 @@ func draw_supports(supports_to_draw : Array[Vector2i]) -> void:
 	supports = supports_to_draw
 	queue_redraw()
 
+func is_in_melee() -> bool:
+	var adjacent : Array[Unit] = SKTileMap.Instance.get_adjacent_units_not_of_team(get_map_position(), team)
+	return not adjacent.is_empty()
+
 #
 # Godot
 #
