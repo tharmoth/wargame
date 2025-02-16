@@ -42,7 +42,7 @@ func _generate_multimesh(texture : Texture2D) -> void:
     multi_mesh_instance.z_index = 1
     if use_wind:
         var matty : ShaderMaterial = ShaderMaterial.new()
-        # matty.shader = load("res://src/factory/shaders/wind_sway.gdshader")
+        matty.shader = load("res://src/sk/shaders/wind_sway.gdshader")
         matty.set_shader_parameter("minStrength", 1.0 / 1200.0)
         matty.set_shader_parameter("maxStrength", 1.0 / 800.0)
         matty.set_shader_parameter("detail", 5.0)

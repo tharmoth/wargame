@@ -39,6 +39,11 @@ func _ready() -> void:
 	player2movement.team = "player2"
 	player2movement.name = "Player 2 Movement"
 	phases.append(player2movement)
+
+	var shootPhase : ShootPhase = ShootPhase.new()
+	shootPhase.team = "player1"
+	shootPhase.name = "Player 1 Shoot"
+	phases.append(shootPhase)
 	
 	var pairOffPhase : PairOffPhase = PairOffPhase.new()
 	pairOffPhase.name = "Pair off"

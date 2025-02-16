@@ -14,3 +14,8 @@ static func get_units_with_item(units : Array[Unit], item : String) -> Array[Uni
 		if item in unit.stats.items:
 			with_item.append(unit)
 	return with_item
+
+
+static func deactivate_units() -> void:
+	for unit : Unit in WargameUtils.get_units():
+		unit.activated()
