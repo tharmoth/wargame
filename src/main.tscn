@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=4 uid="uid://b04ht6lcp6bll"]
+[gd_scene load_steps=64 format=4 uid="uid://b04ht6lcp6bll"]
 
 [ext_resource type="Texture2D" uid="uid://0vatctgjeqkt" path="res://data/Tileset.png" id="1_4hsw7"]
 [ext_resource type="PackedScene" uid="uid://b37ghh2g33fmw" path="res://src/unit.tscn" id="2_2v1yl"]
@@ -19,6 +19,8 @@
 [ext_resource type="PackedScene" uid="uid://ce4b43d31pyc5" path="res://src/gui/stats_panel.tscn" id="12_yb08b"]
 [ext_resource type="AudioStream" uid="uid://cd5cb7rg0hql" path="res://data/sfx/dice1.wav" id="15_26fok"]
 [ext_resource type="AudioStream" uid="uid://ym6fhs6i51rr" path="res://data/sfx/dice2.wav" id="16_kebbf"]
+[ext_resource type="Script" path="res://src/gui/phase_gui.gd" id="16_krslf"]
+[ext_resource type="Script" path="res://src/gui/player_info.gd" id="17_fpiss"]
 [ext_resource type="AudioStream" uid="uid://bc0ommhcdp18r" path="res://data/sfx/dice3.wav" id="17_l51fq"]
 [ext_resource type="Script" path="res://src/pan_camera.gd" id="17_xtrf0"]
 [ext_resource type="AudioStream" uid="uid://b3bgd7by7weqk" path="res://data/sfx/stab/zapsplat_warfare_sword_blade_tip_stab_dig_into_earth_soil_mud_009_93653.mp3" id="21_y7mm8"]
@@ -329,6 +331,9 @@ attacks = 1
 wounds = 1
 courage = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brkq5"]
+bg_color = Color(0.147672, 0.147672, 0.147672, 0.415686)
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6xkd4"]
 streams_count = 3
 stream_0/stream = ExtResource("15_26fok")
@@ -540,7 +545,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Gui/Control"]
+[node name="NextPhaseGui" type="VBoxContainer" parent="Gui/Control"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -549,81 +555,165 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="NextButton" type="Button" parent="Gui/Control/VBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="Gui/Control/NextPhaseGui"]
 layout_mode = 2
-focus_mode = 0
-text = "Next Phase"
-script = ExtResource("5_jd13d")
+theme_override_styles/panel = SubResource("StyleBoxFlat_brkq5")
 
-[node name="PhaseLabel" type="Label" parent="Gui/Control/VBoxContainer"]
-unique_name_in_owner = true
+[node name="MarginContainer" type="MarginContainer" parent="Gui/Control/NextPhaseGui/PanelContainer2"]
 layout_mode = 2
-text = "Start"
+theme_override_constants/margin_bottom = 5
 
-[node name="FightGui" type="HBoxContainer" parent="Gui/Control/VBoxContainer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Player1Stats" parent="Gui/Control/VBoxContainer/FightGui" instance=ExtResource("12_yb08b")]
-unique_name_in_owner = true
+[node name="VBoxContainer" type="VBoxContainer" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer"]
 layout_mode = 2
 
-[node name="Center" type="VBoxContainer" parent="Gui/Control/VBoxContainer/FightGui"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Panel" type="MarginContainer" parent="Gui/Control/VBoxContainer/FightGui/Center"]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 2.0
-
-[node name="PanelContainer" type="PanelContainer" parent="Gui/Control/VBoxContainer/FightGui/Center"]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 1.2
-
-[node name="MarginContainer" type="MarginContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="Statsbox" type="VBoxContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
+[node name="PanelContainer" type="PanelContainer" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
-layout_mode = 2
-text = "Duel Roll"
-
-[node name="Control" type="Control" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label2" type="Label" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
-layout_mode = 2
-text = "Highest Roll Wins"
-
-[node name="HSeparator2" type="HSeparator" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
-layout_mode = 2
-
-[node name="PanelContainer2" type="PanelContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox/PanelContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="RollButton" type="Button" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox/PanelContainer2/MarginContainer"]
+[node name="PhaseGui" type="HBoxContainer" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("16_krslf")
+
+[node name="CourageLabel" type="Label" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PhaseGui"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "- Courage Phase -"
+horizontal_alignment = 1
+
+[node name="MovementLabel" type="Label" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PhaseGui"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "- Movement Phase -"
+horizontal_alignment = 1
+
+[node name="ShootingLabel" type="Label" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PhaseGui"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "- Shooting Phase -"
+horizontal_alignment = 1
+
+[node name="FightLabel" type="Label" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/PhaseGui"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "- Fight Phase -"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Player1Info" type="Label" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player1 - 10/10 - 100%"
+horizontal_alignment = 1
+script = ExtResource("17_fpiss")
+
+[node name="MarginContainer" type="MarginContainer" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ActionLabel" type="Label" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "- Activate a Unit -"
+horizontal_alignment = 1
+
+[node name="NextButton" type="Button" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+text = "[Space] Skip Phase"
+script = ExtResource("5_jd13d")
+
+[node name="Player2Info" type="Label" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player2 - 10/10 - 100%"
+horizontal_alignment = 1
+script = ExtResource("17_fpiss")
+player = 1
+
+[node name="FightGui" type="HBoxContainer" parent="Gui/Control/NextPhaseGui"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Player1Stats" parent="Gui/Control/NextPhaseGui/FightGui" instance=ExtResource("12_yb08b")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Center" type="VBoxContainer" parent="Gui/Control/NextPhaseGui/FightGui"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="MarginContainer" parent="Gui/Control/NextPhaseGui/FightGui/Center"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="PanelContainer" type="PanelContainer" parent="Gui/Control/NextPhaseGui/FightGui/Center"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.2
+
+[node name="MarginContainer" type="MarginContainer" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Statsbox" type="VBoxContainer" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
+layout_mode = 2
+text = "Duel Roll"
+
+[node name="Control" type="Control" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
+layout_mode = 2
+text = "Highest Roll Wins"
+
+[node name="HSeparator2" type="HSeparator" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
+layout_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="RollButton" type="Button" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox/PanelContainer2/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -631,26 +721,50 @@ focus_mode = 0
 text = "[Space] Roll To Duel
 "
 
-[node name="HSeparator" type="HSeparator" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
+[node name="HSeparator" type="HSeparator" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="RollContainer" type="VBoxContainer" parent="Gui/Control/VBoxContainer/FightGui/Center/PanelContainer/MarginContainer/Statsbox/ScrollContainer"]
+[node name="RollContainer" type="VBoxContainer" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Player2Stats" parent="Gui/Control/VBoxContainer/FightGui" instance=ExtResource("12_yb08b")]
+[node name="Player2Stats" parent="Gui/Control/NextPhaseGui/FightGui" instance=ExtResource("12_yb08b")]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="DiceRoll" type="AudioStreamPlayer2D" parent="Gui/Control"]
 unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_6xkd4")
+
+[node name="BattleCompleteGui" type="VBoxContainer" parent="Gui/Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="VictoryLabel" type="Label" parent="Gui/Control/BattleCompleteGui"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 100
+text = "Victory/Defeat!"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="Gui/Control/BattleCompleteGui"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Return to Map"
 
 [node name="StabAudio" type="AudioStreamPlayer" parent="Gui"]
 unique_name_in_owner = true

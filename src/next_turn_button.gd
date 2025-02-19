@@ -5,6 +5,7 @@ static var Instance : TurnManager
 var current_phase : BasePhase = null
 var phases : Array = []
 var next_phase_requested : bool = false
+var battle : Battle = Battle.new()
 
 # 
 # Public
@@ -24,6 +25,9 @@ static func button_pressed() -> void:
 static func end_phase() -> void:
 	Instance._request_end_phase()
 
+static func end_battle() -> void:
+	Instance._end_battle()
+
 #
 # Godot
 #
@@ -33,12 +37,12 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	var player1movement : MovementPhase = MovementPhase.new()
 	player1movement.team = "player1"
-	player1movement.name = "Player 1 Movement"
+	player1movement.name = "movement"
 	phases.append(player1movement)
 	
 	var player2movement : AIMovementPhase = AIMovementPhase.new()
 	player2movement.team = "player2"
-	player2movement.name = "Player 2 Movement"
+	player2movement.name = "movement"
 	phases.append(player2movement)
 
 	# var shootPhase : ShootPhase = ShootPhase.new()
@@ -47,26 +51,33 @@ func _ready() -> void:
 	# phases.append(shootPhase)
 	
 	var pairOffPhase : PairOffPhase = PairOffPhase.new()
-	pairOffPhase.name = "Pair off"
+	pairOffPhase.name = "pair"
 	phases.append(pairOffPhase)
 	
 	var supportPhase : SupportPhase = SupportPhase.new()
 	supportPhase.get_combats = pairOffPhase.get_combats
-	supportPhase.name = "Player 1 Support"
+	supportPhase.name = "support"
 	phases.append(supportPhase)
 	
 	var supportPhase2 : AISupportPhase = AISupportPhase.new()
 	supportPhase2.get_combats = pairOffPhase.get_combats
 	supportPhase2.team = "player2"
-	supportPhase2.name = "Player 2 Support"
+	supportPhase2.name = "support"
 	phases.append(supportPhase2)
 	
 	var fightPhase : FightPhase = FightPhase.new()
 	fightPhase.get_combats = pairOffPhase.get_combats
 	fightPhase.get_supports1 = supportPhase.get_supports
 	fightPhase.get_supports2 = supportPhase2.get_supports
-	fightPhase.name = "Fight"
+	fightPhase.name = "fight"
 	phases.append(fightPhase)
+
+	var cleanupPhase : CleanupPhase = CleanupPhase.new()
+	cleanupPhase.name = "cleanup"
+	phases.append(cleanupPhase)
+
+	battle.player_1_starting_count = WargameUtils.get_units("player1").size()
+	battle.player_2_starting_count = WargameUtils.get_units("player2").size()
 	
 func _pressed() -> void:
 	end_phase()
@@ -79,8 +90,6 @@ func _process(delta: float) -> void:
 	if next_phase_requested and _all_animations_finished():
 		next_phase_requested = false
 		_do_end_phase()
-		
-
 
 #
 # Private
@@ -122,4 +131,7 @@ func _do_end_phase() -> void:
 	current_phase = phases[current_index]
 	current_phase.start_phase()
 	
-	%PhaseLabel.text = current_phase.name
+	%PhaseGui.set_current_phase(current_phase.name)
+
+func _end_battle() -> void:
+	%BattleCompleteGui.show()
