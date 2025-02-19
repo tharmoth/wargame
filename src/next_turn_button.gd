@@ -35,6 +35,11 @@ func _enter_tree() -> void:
 	Instance = self
 
 func _ready() -> void:
+	var couragePhase : CouragePhase = CouragePhase.new()
+	couragePhase.team = "player1"
+	couragePhase.name = "courage"
+	phases.append(couragePhase)
+
 	var player1movement : MovementPhase = MovementPhase.new()
 	player1movement.team = "player1"
 	player1movement.name = "movement"

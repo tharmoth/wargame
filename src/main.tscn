@@ -659,10 +659,12 @@ size_flags_vertical = 3
 [node name="Player1Stats" parent="Gui/Control/NextPhaseGui/FightGui" instance=ExtResource("12_yb08b")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="Center" type="VBoxContainer" parent="Gui/Control/NextPhaseGui/FightGui"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
 
 [node name="Panel" type="MarginContainer" parent="Gui/Control/NextPhaseGui/FightGui/Center"]
 layout_mode = 2
@@ -737,6 +739,7 @@ size_flags_horizontal = 3
 [node name="Player2Stats" parent="Gui/Control/NextPhaseGui/FightGui" instance=ExtResource("12_yb08b")]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="DiceRoll" type="AudioStreamPlayer2D" parent="Gui/Control"]
 unique_name_in_owner = true
@@ -781,7 +784,7 @@ stream = SubResource("AudioStreamRandomizer_sjxne")
 [node name="WalkAudio" type="AudioStreamPlayer" parent="Gui"]
 unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_kexk4")
-volume_db = -10.0
+volume_db = -40.0
 max_polyphony = 20
 
 [node name="Camera2D" type="Camera2D" parent="."]

@@ -127,7 +127,7 @@ func _shoot(shooter : Unit, target : Unit) -> void:
 	# var cutoff : int = Stats.get_shoot_target(shooter.stats.shoot, target.stats.defense)
 	var cutoff : int = 3
 	_rolls = [roll]
-	GUI.show_strike_row(_rolls, cutoff)
+	GUI.show_cutoff_row(_rolls, cutoff)
 
 func _deal_strikes(winners : Array[Unit], losers : Array[Unit]) -> void:
 	var units_to_strike_with : Array[Unit] = winners
@@ -149,5 +149,5 @@ func _deal_strikes(winners : Array[Unit], losers : Array[Unit]) -> void:
 				losers.remove_at(losers.find(loser))
 				loser.kill()
 
-	GUI.show_strike_row(rolls, cutoff)
+	GUI.show_cutoff_row(rolls, cutoff)
 	# GUI.show_shoot_result(shooter, target, roll, cutoff)

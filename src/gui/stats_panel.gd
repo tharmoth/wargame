@@ -1,5 +1,8 @@
 extends Node
 
+func set_hidden(should_hide : bool) -> void:
+	%StatPanel.visible = not should_hide
+
 func show_stats(stats : Stats) -> void:
 	%MovementLabel.text = str(stats.movement)
 	%FightValueLabel.text = str(stats.fight_value)

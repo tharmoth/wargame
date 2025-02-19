@@ -20,6 +20,8 @@ var animating : bool = false
 var _bob_tween : Tween = null
 @onready var _body_sprite : Sprite2D = $Sprite2D
 
+var _move_tween : Tween = null
+
 var _components : Array[Variant] = []
 
 #
@@ -61,6 +63,17 @@ func kill() -> void:
 
     queue_free()
 
+func flee() -> void:
+    var target : Vector2i = get_map_position()
+    SKTileMap.Instance.clear_entity(self)
+    if team == "player1":
+        target = Vector2i(-1, target.y + randi_range(-20, 20))
+    else:
+        target = Vector2i(49, target.y + randi_range(-20, 20))
+    move_to(target)
+    remove_from_group("unit")
+    get_tree().create_timer(15).connect("timeout", queue_free)
+
 func select() -> void:
     outline.select()
     
@@ -84,11 +97,20 @@ func move_to(map_position : Vector2i) -> void:
         printerr("Can't move to occupied tile!")
         return
 
+    var distance_map : float = SKTileMap.Instance.global_to_map(global_position).distance_to(map_position)
+
     _target_position = SKTileMap.Instance.map_to_global(map_position)
     # global_position = SKTileMap.Instance.map_to_global(map_position)
     SKTileMap.Instance.clear_entity(self)
     SKTileMap.Instance.add_entity(map_position, self)
     animating = true
+
+    _body_sprite.flip_h = _target_position.x < global_position.x;
+    
+    if _move_tween != null:
+        _move_tween.kill()
+    _move_tween = _body_sprite.create_tween()
+    _move_tween.tween_property(self, "global_position", _target_position, 0.5 * distance_map);
 
 func get_map_position() -> Vector2i:
     return SKTileMap.Instance.get_entity_positions(self)[0]

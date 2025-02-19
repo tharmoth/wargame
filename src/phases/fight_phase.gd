@@ -264,7 +264,7 @@ func _deal_strikes(winners : Array[Unit], losers : Array[Unit]) -> void:
 		else:
 			GUI.play_audio(GUI.Sound.MISS)
 
-	GUI.show_strike_row(rolls, cutoff)
+	GUI.show_cutoff_row(rolls, cutoff)
 
 func _should_have_banner_bonus(unit : Unit) -> bool:
 	var units : Array[Unit] = WargameUtils.get_units(unit.team)
