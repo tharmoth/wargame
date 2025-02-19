@@ -71,6 +71,7 @@ func mouse_pressed(global_position : Vector2) -> void:
 				_current_phase = "Duel"
 
 				_combats.remove_at(_combats.find(combat))
+				PanCamera.Instance.request(unit.global_position)
 				break
 
 func button_pressed() -> void:
@@ -78,15 +79,12 @@ func button_pressed() -> void:
 		var duel_result : Array[Array] = _duel(_team1, _team2)
 		_winners = duel_result[0]
 		_losers = duel_result[1]
+		_clean_up_combat()
 		_knockback_losers(_losers)
-		_current_phase = "Strike"
-	# elif _current_phase == "Knockback":
-	# 	_knockback_losers(_losers)
 		_current_phase = "Strike"
 	elif _current_phase == "Strike":
 		_current_phase = "End"
 		_deal_strikes(_winners, _losers)
-		_clean_up_combat()
 		_selected_combat = []
 		_team1 = []
 		_team2 = []
@@ -255,10 +253,16 @@ func _deal_strikes(winners : Array[Unit], losers : Array[Unit]) -> void:
 		rolls.append(roll)
 		
 		if roll >= cutoff:
+			GUI.play_audio(GUI.Sound.STAB)
+			var blood : BloodComponent = BloodComponent.new()
+			blood.position = loser.global_position
+			loser.get_parent().add_child(blood)
 			loser.stats.wounds = loser.stats.wounds - 1
 			if loser.stats.wounds <= 0:
 				losers.remove_at(losers.find(loser))
 				loser.kill()
+		else:
+			GUI.play_audio(GUI.Sound.MISS)
 
 	GUI.show_strike_row(rolls, cutoff)
 

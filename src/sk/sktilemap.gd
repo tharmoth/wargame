@@ -27,6 +27,13 @@ func clear_entity(entity: Node) -> void:
 			break
 		layer.erase(key)
 
+func get_entity_positions(entity: Node) -> Array[Vector2i]:
+	var positions : Array[Vector2i] = []
+	for entry : Vector2i in layer:
+		if layer[entry] == entity:
+			positions.append(entry)
+	return positions
+
 func get_entity_at_position(map_position: Vector2i) -> Unit:
 	if layer.has(map_position):
 		return layer.get(map_position)
@@ -75,7 +82,7 @@ func line(p0 : Vector2i, p1 : Vector2i) -> Array[Vector2i]:
 	var points : Array[Vector2i] = []
 	var n: int = diagonal_distance(p0, p1)
 	for step : int in range(0, n + 1):
-		var t: float = 0 if n == 0 else step / n
+		var t: float = 0.0 if n == 0 else float(step) / float(n)
 		points.append(round_point(lerp(Vector2(p0), Vector2(p1), t)))
 	return points
 
@@ -84,7 +91,7 @@ func diagonal_distance(p0 : Vector2i, p1 : Vector2i) -> int:
 	var dy: int = p1.y - p0.y
 	return maxi(absi(dx), absi(dy))
 
-func round_point(p : Vector2i) -> Vector2i:
+func round_point(p : Vector2) -> Vector2i:
 	return Vector2i(roundi(p.x), roundi(p.y))
 
 func get_adjacent_units(map_position : Vector2i) -> Array[Unit]:

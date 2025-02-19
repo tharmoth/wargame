@@ -7,6 +7,14 @@ static var INT_MIN : int = -9223372036854775808
 static var BLUE : Color = Color(0.0, 0.5, 0.5, 1.0)
 static var RED : Color = Color.RED
 
+static var BLOOD : Color = Color("880808")
+static var POOR : Color = Color("9d9d9d")
+static var COMMON : Color = Color("ffffff")
+static var UNCOMMON : Color = Color("1eff00")
+static var RARE : Color = Color("0070dd")
+static var EPIC : Color = Color("a335ee")
+static var LEGENDARY : Color = Color("ff8000")
+
 static func GeneratePolygon(sprite: Sprite2D) -> Array[CollisionPolygon2D]:
 	var image : Image = sprite.texture.get_image()
 	if sprite.flip_v: image.flip_x()

@@ -1,4 +1,6 @@
-extends Camera2D
+class_name PanCamera extends Camera2D
+
+static var Instance : PanCamera
 
 var threshold : int = 10
 var step : int = 0
@@ -20,7 +22,10 @@ var follow_object : Node2D = null
 
 var tween : Tween = null
 
+func _enter_tree() -> void:
+	Instance = self
 
+	
 func _ready() -> void:
 	get_viewport().size_changed.connect(func() -> void: viewport_size = get_viewport().size)
 	add_child(listener)

@@ -95,12 +95,31 @@ func mouse_pressed(global_position : Vector2) -> void:
 			_units_to_shoot.remove_at(_units_to_shoot.find(_selected_unit))
 			_current_phase = "Shoot"
 
+			var line_to_draw : Array[Vector2i] = SKTileMap.Instance.line(_selected_unit.get_map_position(), _target.get_map_position())
+			_selected_unit.draw_shot(line_to_draw)
+
 func _get_valid_shooting_units(unit : Unit) -> Array[Unit]:
 	var valid_units : Array[Unit] = []
 	for tile : Vector2i in SKTileMap.Instance.get_tiles_in_radius(unit.get_map_position(), 24):
 		var entity : Unit = SKTileMap.Instance.get_entity_at_position(tile)
-		if entity != null and entity.team != unit.team and not unit.is_in_melee():
-			valid_units.append(entity)
+		if entity != null and entity.team != unit.team and not entity.is_in_melee():
+
+			# Check if there is a clear line of sight
+			var line : Array[Vector2i] = SKTileMap.Instance.line(_selected_unit.get_map_position(), entity.get_map_position())
+			var clear : bool = true
+
+			for i : int in range(1, line.size() - 1):
+				var point : Vector2i = line[i]
+				var los_entity : Unit = SKTileMap.Instance.get_entity_at_position(point)
+				if i == 1 and los_entity != null and los_entity.team == unit.team and not los_entity.is_in_melee() and los_entity.get_map_position().distance_to(unit.get_map_position()) == 1:
+					pass
+				elif los_entity != null:
+					clear = false
+					break
+
+
+			if clear:
+				valid_units.append(entity)
 	return valid_units
 
 func _shoot(shooter : Unit, target : Unit) -> void:

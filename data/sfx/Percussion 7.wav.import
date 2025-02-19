@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://kq7rahwna8vp"
+path="res://.godot/imported/Percussion 7.wav-3f2d2b998d4c766b1711d0fea977211a.sample"
+
+[deps]
+
+source_file="res://data/sfx/Percussion 7.wav"
+dest_files=["res://.godot/imported/Percussion 7.wav-3f2d2b998d4c766b1711d0fea977211a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

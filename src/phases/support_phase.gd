@@ -100,11 +100,11 @@ func _attempt_support(unit : Unit, supporter : Unit) -> void:
 	if unit != null and unit in adjacent_units and _unit_in_combat(unit):
 		for combat : Array[Unit] in _combats:
 			if unit in combat:
-				_combat_supporters[unit].append(_selected_unit)
+				_combat_supporters[unit].append(supporter)
 				break
 				
-		_units_to_pair.remove_at(_units_to_pair.find(_selected_unit))
-		_selected_unit.deselect()
+		_units_to_pair.remove_at(_units_to_pair.find(supporter))
+		supporter.deselect()
 		_selected_unit = null
 
 		_draw_supports()

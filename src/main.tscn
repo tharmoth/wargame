@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=4 uid="uid://b04ht6lcp6bll"]
+[gd_scene load_steps=61 format=4 uid="uid://b04ht6lcp6bll"]
 
 [ext_resource type="Texture2D" uid="uid://0vatctgjeqkt" path="res://data/Tileset.png" id="1_4hsw7"]
 [ext_resource type="PackedScene" uid="uid://b37ghh2g33fmw" path="res://src/unit.tscn" id="2_2v1yl"]
@@ -21,6 +21,17 @@
 [ext_resource type="AudioStream" uid="uid://ym6fhs6i51rr" path="res://data/sfx/dice2.wav" id="16_kebbf"]
 [ext_resource type="AudioStream" uid="uid://bc0ommhcdp18r" path="res://data/sfx/dice3.wav" id="17_l51fq"]
 [ext_resource type="Script" path="res://src/pan_camera.gd" id="17_xtrf0"]
+[ext_resource type="AudioStream" uid="uid://b3bgd7by7weqk" path="res://data/sfx/stab/zapsplat_warfare_sword_blade_tip_stab_dig_into_earth_soil_mud_009_93653.mp3" id="21_y7mm8"]
+[ext_resource type="AudioStream" uid="uid://qcebp044kvem" path="res://data/sfx/stab/zapsplat_warfare_sword_stab_into_body_flesh_light_squelch_93748.mp3" id="22_3w8ta"]
+[ext_resource type="AudioStream" uid="uid://byi6224j541q4" path="res://data/sfx/swing/swing.wav" id="23_v0bq3"]
+[ext_resource type="AudioStream" uid="uid://ddgnrjjy3m4yx" path="res://data/sfx/swing/swing2.wav" id="24_11xet"]
+[ext_resource type="AudioStream" uid="uid://dew4y852s3jgy" path="res://data/sfx/swing/swing3.wav" id="25_ednlm"]
+[ext_resource type="AudioStream" uid="uid://kq7rahwna8vp" path="res://data/sfx/Percussion 7.wav" id="26_lh8v3"]
+[ext_resource type="AudioStream" uid="uid://cwjfu6dk6rmqo" path="res://data/sfx/footsteps/footstep dirt 1.wav" id="27_47s8x"]
+[ext_resource type="AudioStream" uid="uid://whhsrbnycg8m" path="res://data/sfx/footsteps/footstep dirt 2.wav" id="28_f8ofd"]
+[ext_resource type="AudioStream" uid="uid://ceoeg81wq4vws" path="res://data/sfx/footsteps/footstep dirt 3.wav" id="29_1j5su"]
+[ext_resource type="AudioStream" uid="uid://cv08ttyf3fot7" path="res://data/sfx/footsteps/footstep dirt 4.wav" id="30_l4yqq"]
+[ext_resource type="AudioStream" uid="uid://didm2pylfcrp7" path="res://data/sfx/footsteps/footstep dirt 5.wav" id="31_du64i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_unfa5"]
 texture = ExtResource("1_4hsw7")
@@ -324,6 +335,29 @@ stream_0/stream = ExtResource("15_26fok")
 stream_1/stream = ExtResource("16_kebbf")
 stream_2/stream = ExtResource("17_l51fq")
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_t518l"]
+streams_count = 2
+stream_0/stream = ExtResource("21_y7mm8")
+stream_1/stream = ExtResource("22_3w8ta")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_a77uo"]
+streams_count = 3
+stream_0/stream = ExtResource("23_v0bq3")
+stream_1/stream = ExtResource("24_11xet")
+stream_2/stream = ExtResource("25_ednlm")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sjxne"]
+streams_count = 1
+stream_0/stream = ExtResource("26_lh8v3")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_kexk4"]
+streams_count = 5
+stream_0/stream = ExtResource("27_47s8x")
+stream_1/stream = ExtResource("28_f8ofd")
+stream_2/stream = ExtResource("29_1j5su")
+stream_3/stream = ExtResource("30_l4yqq")
+stream_4/stream = ExtResource("31_du64i")
+
 [node name="Node2D" type="Node2D"]
 position = Vector2(1, 0)
 
@@ -345,7 +379,7 @@ tile_set = SubResource("TileSet_yy2s2")
 script = ExtResource("3_hch2e")
 
 [node name="Unit" parent="." instance=ExtResource("2_2v1yl")]
-position = Vector2(1508, 647)
+position = Vector2(1368, 645)
 team = "player1"
 stats = SubResource("Resource_sd26x")
 
@@ -353,7 +387,7 @@ stats = SubResource("Resource_sd26x")
 texture = ExtResource("4_r5m01")
 
 [node name="Unit7" parent="." instance=ExtResource("2_2v1yl")]
-position = Vector2(1508, 717)
+position = Vector2(1368, 712)
 team = "player1"
 stats = SubResource("Resource_qyyu0")
 
@@ -361,7 +395,7 @@ stats = SubResource("Resource_qyyu0")
 texture = ExtResource("4_r5m01")
 
 [node name="Unit8" parent="." instance=ExtResource("2_2v1yl")]
-position = Vector2(1509, 782)
+position = Vector2(1369, 780)
 team = "player1"
 stats = SubResource("Resource_7gsuo")
 
@@ -393,7 +427,7 @@ stats = SubResource("Resource_5bel7")
 texture = ExtResource("5_08co2")
 
 [node name="Unit11" parent="." instance=ExtResource("2_2v1yl")]
-position = Vector2(1446, 709)
+position = Vector2(1297, 709)
 team = "player1"
 stats = SubResource("Resource_whjw7")
 
@@ -517,6 +551,7 @@ mouse_filter = 2
 
 [node name="NextButton" type="Button" parent="Gui/Control/VBoxContainer"]
 layout_mode = 2
+focus_mode = 0
 text = "Next Phase"
 script = ExtResource("5_jd13d")
 
@@ -592,6 +627,7 @@ theme_override_constants/margin_bottom = 5
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
+focus_mode = 0
 text = "[Space] Roll To Duel
 "
 
@@ -615,6 +651,24 @@ layout_mode = 2
 [node name="DiceRoll" type="AudioStreamPlayer2D" parent="Gui/Control"]
 unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_6xkd4")
+
+[node name="StabAudio" type="AudioStreamPlayer" parent="Gui"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_t518l")
+
+[node name="MissAudio" type="AudioStreamPlayer" parent="Gui"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_a77uo")
+
+[node name="TurnAudio" type="AudioStreamPlayer" parent="Gui"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_sjxne")
+
+[node name="WalkAudio" type="AudioStreamPlayer" parent="Gui"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_kexk4")
+volume_db = -10.0
+max_polyphony = 20
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(1554, 782)
