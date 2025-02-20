@@ -40,6 +40,11 @@ func _ready() -> void:
 	couragePhase.name = "courage"
 	phases.append(couragePhase)
 
+	var player2couragePhase : CouragePhase = CouragePhase.new()
+	player2couragePhase.team = "player2"
+	player2couragePhase.name = "courage"
+	phases.append(player2couragePhase)
+
 	var player1movement : MovementPhase = MovementPhase.new()
 	player1movement.team = "player1"
 	player1movement.name = "movement"

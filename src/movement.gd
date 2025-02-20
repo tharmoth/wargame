@@ -1,6 +1,6 @@
 class_name Movement
 
-static var DIRECTIONS : Array[Vector2i] = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0)]
+static var DIRECTIONS : Array[Vector2i] = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0), Vector2i(1, -1), Vector2i(-1, -1)]
 
 static func get_team_zoc(team: String) -> Array[Vector2i]:
 	var entities: Array[Node] = SKTileMap.Instance.get_entities()
@@ -12,7 +12,7 @@ static func get_team_zoc(team: String) -> Array[Vector2i]:
 	var positions: Array[Vector2i] = []
 	for enemy : Node in enemies:
 		var map_pos : Vector2i = SKTileMap.Instance.global_to_map(enemy.global_position)
-		for direction : Vector2i in DIRECTIONS:
+		for direction : Vector2i in SKTileMap.get_adjacent_cells(map_pos):
 			if SKTileMap.Instance.get_entity_at_position(map_pos + direction) == null:
 				positions.append(map_pos + direction)
 	
@@ -78,6 +78,7 @@ static func get_valid_tiles(node: Unit, debug : bool = false) -> Array[Vector2i]
 	
 	var result: Dictionary = _map_to_grid(valid_tiles_map)
 	var grid: Array = result["grid"]
+	var conversion : Vector2i = Vector2i(result["x_min"], result["y_min"])
 	
 	var zoc: Array[Vector2i] = get_team_zoc(team)
 	for i : int in range(len(zoc)):
@@ -93,17 +94,17 @@ static func get_valid_tiles(node: Unit, debug : bool = false) -> Array[Vector2i]
 				grid[x][y] = -2
 
 	# Perform a flood fill and set any values that are more than the movement distnace away to invalid
-	_flood_fill_distance(grid, Vector2i(len(grid) / 2, len(grid[0]) / 2))
+	_flood_fill_distance(grid, Vector2i(len(grid) / 2, len(grid[0]) / 2), conversion)
 	
-	for point : Vector2i in zoc:
-		for direction : Vector2i in DIRECTIONS:
-			var neighbor : Vector2i = point + direction
+	for map_pos : Vector2i in zoc:
+		for direction : Vector2i in SKTileMap.get_adjacent_cells(map_pos):
+			var neighbor : Vector2i = map_pos + direction
 			# If the point is in the grid
 			if neighbor.x >= 0 and neighbor.x < len(grid) and neighbor.y >= 0 and neighbor.y < len(grid[0]) \
-			and point.x >= 0 and point.x < len(grid) and point.y >= 0 and point.y < len(grid[0]):
+			and map_pos.x >= 0 and map_pos.x < len(grid) and map_pos.y >= 0 and map_pos.y < len(grid[0]):
 				# if it is within range to move into
 				if grid[neighbor.x][neighbor.y] < distance and grid[neighbor.x][neighbor.y] > -1:
-					grid[point.x][point.y] = distance
+					grid[map_pos.x][map_pos.y] = distance
 			
 	# Print the grid for debug
 	if debug: _print_grid(grid)
@@ -120,30 +121,27 @@ static func get_valid_tiles(node: Unit, debug : bool = false) -> Array[Vector2i]
 	
 	return valid_points_map
 
-static func _grow(grid: Array) -> void:
-	var rows: int = grid.size()
-	var cols: int = grid[0].size()
+# static func _grow(grid: Array) -> void:
+# 	var rows: int = grid.size()
+# 	var cols: int = grid[0].size()
 	
-	# Define DIRECTIONS for moving up, down, left, right
-	var DIRECTIONS: Array[Variant] = [Vector2(0, 1), Vector2(1, 0), Vector2(0, -1), Vector2(-1, 0)]
-	
-	for x : int in range(0, rows):
-		for y : int in range(0, cols):
-			if grid[x][y] == 0:
-				continue
+# 	for x : int in range(0, rows):
+# 		for y : int in range(0, cols):
+# 			if grid[x][y] == 0:
+# 				continue
 
-			for direction : Vector2 in DIRECTIONS:
-				var neighbor : Vector2 = Vector2(x, y) + direction
-				if neighbor.x >= 0 and neighbor.x < rows and neighbor.y >= 0 and neighbor.y < cols:
-					if grid[neighbor.x][neighbor.y] == 0:
-						grid[x][y] = 2
+# 			for direction : Vector2 in DIRECTIONS:
+# 				var neighbor : Vector2 = Vector2(x, y) + direction
+# 				if neighbor.x >= 0 and neighbor.x < rows and neighbor.y >= 0 and neighbor.y < cols:
+# 					if grid[neighbor.x][neighbor.y] == 0:
+# 						grid[x][y] = 2
 	
-	for x : int in range(0, rows):
-		for y : int in range(0, cols):
-			if grid[x][y] == 2:
-				grid[x][y] = 0
+# 	for x : int in range(0, rows):
+# 		for y : int in range(0, cols):
+# 			if grid[x][y] == 2:
+# 				grid[x][y] = 0
 
-static func _flood_fill_distance(grid: Array, center: Vector2i) -> void:
+static func _flood_fill_distance(grid: Array, center: Vector2i, conversion : Vector2i) -> void:
 	var rows: int = grid.size()
 	var cols: int = grid[0].size()
 
@@ -161,7 +159,7 @@ static func _flood_fill_distance(grid: Array, center: Vector2i) -> void:
 		var current : Vector2i = queue.pop_front()
 		var current_distance : int = grid[current.x][current.y]
 
-		for direction : Vector2i in DIRECTIONS:
+		for direction : Vector2i in SKTileMap.get_adjacent_cells(current + conversion):
 			var neighbor : Vector2i = current + direction
 			if neighbor.x >= 0 and neighbor.x < rows and neighbor.y >= 0 and neighbor.y < cols:
 				if grid[neighbor.x][neighbor.y] == -1:  # Check if unvisited

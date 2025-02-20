@@ -101,7 +101,7 @@ func move_to_nearest(unit_to_move : Unit, target_units : Array[Unit]) -> Unit:
 	for target_unit : Unit in target_units:
 		var valid_tiles : Array[Vector2i] = Movement.get_valid_tiles(unit_to_move, false)
 		var target_tiles : Array[Vector2i] = []
-		for direction : Vector2i in Movement.DIRECTIONS:
+		for direction : Vector2i in SKTileMap.get_adjacent_cells(target_unit.get_map_position()):
 			if direction + target_unit.get_map_position() in valid_tiles:
 				target_tiles.append(direction + target_unit.get_map_position())
 		target_tiles.sort_custom(func(a : Vector2i, b : Vector2i) -> bool:
@@ -125,9 +125,9 @@ func mouse_exit(unit : Unit) -> void:
 func mouse_pressed(global_position : Vector2) -> void:
 	pass
 
-func _can_move_next_to(unit : Unit, map_position : Vector2i) -> bool:
+func _can_move_next_to(unit : Unit, map_pos : Vector2i) -> bool:
 	var valid_tiles : Array[Vector2i] = Movement.get_valid_tiles(unit, false)
-	for direction : Vector2i in Movement.DIRECTIONS:
-		if direction + map_position in valid_tiles:
+	for direction : Vector2i in SKTileMap.get_adjacent_cells(map_pos):
+		if direction + map_pos in valid_tiles:
 			return true
 	return false

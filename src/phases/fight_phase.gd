@@ -162,7 +162,7 @@ func _duel(team1 : Array[Unit], team2 : Array[Unit]) -> Array[Array]:
 
 func _get_valid_movement_options(unit : Unit) -> Array[Vector2i]:
 	var valid_adjacent : Array[Vector2i] = []
-	for direction : Vector2i in Movement.DIRECTIONS:
+	for direction : Vector2i in SKTileMap.get_adjacent_cells(unit.get_map_position()):
 		var pos : Vector2i = unit.get_map_position() + direction
 		if SKTileMap.Instance.get_entity_at_position(pos) != null:
 			continue

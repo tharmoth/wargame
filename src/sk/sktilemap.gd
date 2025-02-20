@@ -1,5 +1,8 @@
 class_name SKTileMap extends TileMapLayer
 
+const EVEN_DIRECTIONS : Array[Vector2i] = [Vector2i(-1, -1), Vector2i(0, -1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(0, 1),  Vector2i(-1, 0)]
+const ODD_DIRECTIONS  : Array[Vector2i] = [Vector2i(-1, 0), Vector2i(0, -1),  Vector2i(1, 0), Vector2i(1, 1), Vector2i(0, 1),  Vector2i(-1, 1)]
+
 static var Instance : SKTileMap
 var layer : Dictionary = {}
 
@@ -96,7 +99,7 @@ func round_point(p : Vector2) -> Vector2i:
 
 func get_adjacent_units(map_position : Vector2i) -> Array[Unit]:
 	var entities : Array[Unit] = []
-	for direction : Vector2i in Movement.DIRECTIONS:
+	for direction : Vector2i in SKTileMap.get_adjacent_cells(map_position):
 		var entity: Unit = SKTileMap.Instance.get_entity_at_position(map_position + direction)
 		if entity != null:
 			entities.append(entity)
@@ -115,3 +118,12 @@ static func get_adjacent_units_of_team(map_position : Vector2i, team : String) -
 		if entity.team == team:
 			units.append(entity)
 	return units
+
+static func get_adjacent_cells(cell: Vector2i) -> Array[Vector2i]:
+	var edg_locations_map : Array[Vector2i] = []
+	var directions : Array[Vector2i] = SKTileMap.ODD_DIRECTIONS if abs(cell.x) % 2 == 1 else SKTileMap.EVEN_DIRECTIONS
+	# for direction in directions:
+	# 	var dir_cell_id = get_cell_source_id(0, cell + direction)
+	# 	if dir_cell_id != -1 and edg_locations_map.find(cell + direction) == -1:
+	# 		edg_locations_map.append(cell + direction)
+	return directions

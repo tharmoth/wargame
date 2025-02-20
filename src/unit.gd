@@ -181,9 +181,10 @@ func _draw() -> void:
             if enemies.find(tile_map) != -1:
                 color = Color.RED
             var rect : Rect2 = Rect2(to_local(SKTileMap.Instance.map_to_global(tile_map)) - (Vector2)(SKTileMap.Instance.tile_set.tile_size / 2) , SKTileMap.Instance.tile_set.tile_size)
-            draw_rect(rect, color)
-
-        draw_rect(Rect2(Vector2.ZERO - (Vector2)(SKTileMap.Instance.tile_set.tile_size / 2), SKTileMap.Instance.tile_set.tile_size), Color.GREEN)
+            # draw_rect(rect, color)
+            draw_circle(to_local(SKTileMap.Instance.map_to_global(tile_map)), 5, color, 2)
+        
+        # draw_rect(Rect2(Vector2.ZERO - (Vector2)(SKTileMap.Instance.tile_set.tile_size / 2), SKTileMap.Instance.tile_set.tile_size), Color.GREEN)
     # for fight : Vector2i in fights:
     # 	draw_line(Vector2.ZERO, to_local(SKTileMap.Instance.map_to_global(fight)), Color.RED, 10, true)
     for support : Vector2i in supports:
