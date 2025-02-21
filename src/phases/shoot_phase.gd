@@ -111,7 +111,7 @@ func _get_valid_shooting_units(unit : Unit) -> Array[Unit]:
 			for i : int in range(1, line.size() - 1):
 				var point : Vector2i = line[i]
 				var los_entity : Unit = SKTileMap.Instance.get_entity_at_position(point)
-				if i == 1 and los_entity != null and los_entity.team == unit.team and not los_entity.is_in_melee() and los_entity.get_map_position().distance_to(unit.get_map_position()) == 1:
+				if i == 1 and los_entity != null and los_entity.team == unit.team and not los_entity.is_in_melee() and SKTileMap.Instance.map_distance(los_entity.get_map_position(), unit.get_map_position()) == 1:
 					pass
 				elif los_entity != null:
 					clear = false

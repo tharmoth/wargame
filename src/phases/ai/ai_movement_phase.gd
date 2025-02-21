@@ -76,7 +76,7 @@ func move_to_support(units : Array[Unit]) -> void:
 		print("Nowhere found to move, remaining stationary")
 
 func _sort_by_distance(origin : Vector2i, a : Unit, b : Unit) -> bool:
-	return origin.distance_to(a.get_map_position()) < origin.distance_to(b.get_map_position())
+	return SKTileMap.Instance.map_distance(origin, a.get_map_position()) < SKTileMap.Instance.map_distance(origin, b.get_map_position())
 
 
 func move_to_nearest_enemy(units : Array[Unit]) -> void:
@@ -105,7 +105,7 @@ func move_to_nearest(unit_to_move : Unit, target_units : Array[Unit]) -> Unit:
 			if direction + target_unit.get_map_position() in valid_tiles:
 				target_tiles.append(direction + target_unit.get_map_position())
 		target_tiles.sort_custom(func(a : Vector2i, b : Vector2i) -> bool:
-			return unit_to_move.get_map_position().distance_to(a) < unit_to_move.get_map_position().distance_to(b))
+			return SKTileMap.Instance.map_distance(a, unit_to_move.get_map_position()) < SKTileMap.Instance.map_distance(b, unit_to_move.get_map_position()))
 		for target : Vector2i in target_tiles:
 			unit_to_move.move_to(target)
 			return target_unit

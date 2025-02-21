@@ -348,7 +348,6 @@ script = ExtResource("3_hch2e")
 
 [node name="Unit" parent="." instance=ExtResource("2_2v1yl")]
 position = Vector2(1001, 1005)
-team = "player1"
 stats = SubResource("Resource_sd26x")
 
 [node name="Sprite2D" parent="Unit" index="0"]
@@ -356,7 +355,6 @@ texture = ExtResource("4_r5m01")
 
 [node name="Unit5" parent="." instance=ExtResource("2_2v1yl")]
 position = Vector2(1003, 957)
-team = "player1"
 stats = SubResource("Resource_47hmx")
 
 [node name="Sprite2D" parent="Unit5" index="0"]
@@ -364,7 +362,6 @@ texture = ExtResource("4_r5m01")
 
 [node name="Unit7" parent="." instance=ExtResource("2_2v1yl")]
 position = Vector2(1003, 1061)
-team = "player1"
 stats = SubResource("Resource_ybelb")
 
 [node name="Sprite2D" parent="Unit7" index="0"]
@@ -372,7 +369,6 @@ texture = ExtResource("4_r5m01")
 
 [node name="Unit2" parent="." instance=ExtResource("2_2v1yl")]
 position = Vector2(932, 1033)
-team = "player1"
 stats = SubResource("Resource_5bel7")
 
 [node name="Sprite2D" parent="Unit2" index="0"]
@@ -380,7 +376,6 @@ texture = ExtResource("5_08co2")
 
 [node name="Unit8" parent="." instance=ExtResource("2_2v1yl")]
 position = Vector2(928, 932)
-team = "player1"
 stats = SubResource("Resource_famku")
 
 [node name="Sprite2D" parent="Unit8" index="0"]
@@ -388,7 +383,6 @@ texture = ExtResource("5_08co2")
 
 [node name="Unit3" parent="." instance=ExtResource("2_2v1yl")]
 position = Vector2(932, 980)
-team = "player1"
 stats = SubResource("Resource_7np8s")
 
 [node name="Sprite2D" parent="Unit3" index="0"]

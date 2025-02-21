@@ -270,7 +270,7 @@ func _should_have_banner_bonus(unit : Unit) -> bool:
 	var units : Array[Unit] = WargameUtils.get_units(unit.team)
 	var banners : Array[Unit] = WargameUtils.get_units_with_item(units, "banner")
 	for banner : Unit in banners:
-		if banner.get_map_position().distance_to(unit.get_map_position()) <= 6:
+		if SKTileMap.Instance.map_distance(banner.get_map_position(), unit.get_map_position()) <= 6:
 			return true
 	return false
 

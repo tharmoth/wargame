@@ -97,7 +97,7 @@ func move_to(map_position : Vector2i) -> void:
         printerr("Can't move to occupied tile!")
         return
 
-    var distance_map : float = SKTileMap.Instance.global_to_map(global_position).distance_to(map_position)
+    var distance_map : float = SKTileMap.Instance.map_distance(SKTileMap.Instance.global_to_map(global_position), map_position)
 
     _target_position = SKTileMap.Instance.map_to_global(map_position)
     # global_position = SKTileMap.Instance.map_to_global(map_position)

@@ -1,7 +1,4 @@
-class_name SKTileMap extends TileMapLayer
-
-const EVEN_DIRECTIONS : Array[Vector2i] = [Vector2i(-1, -1), Vector2i(0, -1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(0, 1),  Vector2i(-1, 0)]
-const ODD_DIRECTIONS  : Array[Vector2i] = [Vector2i(-1, 0), Vector2i(0, -1),  Vector2i(1, 0), Vector2i(1, 1), Vector2i(0, 1),  Vector2i(-1, 1)]
+class_name SKTileMap extends HexTileMap
 
 static var Instance : SKTileMap
 var layer : Dictionary = {}
@@ -45,16 +42,16 @@ func get_entity_at_position(map_position: Vector2i) -> Unit:
 func get_entity_at_position_global(map_position: Vector2i) -> Unit:
 	return get_entity_at_position(global_to_map(map_position))
 
-func global_to_map(point: Vector2) -> Vector2i:
-	return local_to_map(to_local(point))
+# func global_to_map(point: Vector2) -> Vector2i:
+# 	return local_to_map(to_local(point))
 	
-func map_to_global(point: Vector2i) -> Vector2:
-	var local : Vector2 = map_to_local(point)
-	var global : Vector2 = to_global(local)
-	return global
+# func map_to_global(point: Vector2i) -> Vector2:
+# 	var local : Vector2 = map_to_local(point)
+# 	var global : Vector2 = to_global(local)
+# 	return global
 	
-func to_map(point: Vector2) -> Vector2:
-	return map_to_global(global_to_map(point))
+# func to_map(point: Vector2) -> Vector2:
+# 	return map_to_global(global_to_map(point))
 
 func get_tiles_in_radius_global(center: Vector2, radius: float) -> Array[Vector2]:
 	var center_map : Vector2i = global_to_map(center)
@@ -118,12 +115,3 @@ static func get_adjacent_units_of_team(map_position : Vector2i, team : String) -
 		if entity.team == team:
 			units.append(entity)
 	return units
-
-static func get_adjacent_cells(cell: Vector2i) -> Array[Vector2i]:
-	var edg_locations_map : Array[Vector2i] = []
-	var directions : Array[Vector2i] = SKTileMap.ODD_DIRECTIONS if abs(cell.x) % 2 == 1 else SKTileMap.EVEN_DIRECTIONS
-	# for direction in directions:
-	# 	var dir_cell_id = get_cell_source_id(0, cell + direction)
-	# 	if dir_cell_id != -1 and edg_locations_map.find(cell + direction) == -1:
-	# 		edg_locations_map.append(cell + direction)
-	return directions
