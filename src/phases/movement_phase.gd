@@ -51,3 +51,6 @@ func mouse_pressed(global_position : Vector2) -> void:
 		_selected_unit.draw_movement([])
 		_units_to_move.remove_at(_units_to_move.find(_selected_unit))
 		_selected_unit = null
+		
+		if _units_to_move.size() == 0:
+			TurnManager.end_phase()
