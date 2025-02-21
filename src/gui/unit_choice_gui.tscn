@@ -1,0 +1,170 @@
+[gd_scene load_steps=8 format=3 uid="uid://bgkbdql55dht"]
+
+[ext_resource type="StyleBox" uid="uid://cm1fpjw50cwth" path="res://data/ui/styles/menu_option.tres" id="1_ryu0v"]
+[ext_resource type="Texture2D" uid="uid://dpdyhproqirjd" path="res://data/human_token.png" id="1_urd4b"]
+[ext_resource type="Script" path="res://src/gui/choice_selection.gd" id="2_5miko"]
+[ext_resource type="Texture2D" uid="uid://ynqhuujy1oem" path="res://data/MT_Sword.png" id="2_cr4pe"]
+
+[sub_resource type="Gradient" id="Gradient_ea5me"]
+colors = PackedColorArray(0.1, 0.1, 0.2, 1, 0.3, 0.31, 0.4, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_772k8"]
+gradient = SubResource("Gradient_ea5me")
+fill_from = Vector2(1, 1)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qd7ia"]
+texture = SubResource("GradientTexture2D_772k8")
+region_rect = Rect2(0, 0, 57.8647, 59.0353)
+
+[node name="UnitChoiceGui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 300
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 300
+theme_override_constants/margin_bottom = 100
+
+[node name="ColorRect" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_qd7ia")
+
+[node name="ChoiceMenuVBox" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="LabelMarginContainer" type="MarginContainer" parent="MarginContainer/ChoiceMenuVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 10
+
+[node name="MenuTitleLabel" type="RichTextLabel" parent="MarginContainer/ChoiceMenuVBox/LabelMarginContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center][shake rate=5 level=3][b][color=gold][outline_size=2][outline_color=black]⚔ CHOOSE YOUR WARRIOR ⚔[/outline_color][/outline_size][/color][/b][/shake][/center]"
+fit_content = true
+
+[node name="ChoiceMarginContainer" type="MarginContainer" parent="MarginContainer/ChoiceMenuVBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="ChoiceHBox" type="HBoxContainer" parent="MarginContainer/ChoiceMenuVBox/ChoiceMarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+
+[node name="ChoicePanel" type="PanelContainer" parent="MarginContainer/ChoiceMenuVBox/ChoiceMarginContainer/ChoiceHBox"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_ryu0v")
+script = ExtResource("2_5miko")
+menu_to_close = NodePath("../../../..")
+
+[node name="UnitInfoContainer" type="VBoxContainer" parent="MarginContainer/ChoiceMenuVBox/ChoiceMarginContainer/ChoiceHBox/ChoicePanel"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="UnitTexture" type="TextureRect" parent="MarginContainer/ChoiceMenuVBox/ChoiceMarginContainer/ChoiceHBox/ChoicePanel/UnitInfoContainer"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_urd4b")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/ChoiceMenuVBox/ChoiceMarginContainer/ChoiceHBox/ChoicePanel/UnitInfoContainer"]
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="UnitInfoLabel" type="RichTextLabel" parent="MarginContainer/ChoiceMenuVBox/ChoiceMarginContainer/ChoiceHBox/ChoicePanel/UnitInfoContainer/PanelContainer"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "[center][b][color=yellow]Veteran Mercenary[/color][/b][/center]
+
+[img=32x32]res://icons/health.png[/img] [b]Health:[/b] [color=red]75[/color]
+[img=32x32]res://icons/stamina.png[/img] [b]Stamina:[/b] [color=green]55[/color]
+[img=32x32]res://icons/morale.png[/img] [b]Morale:[/b] [color=orange]Steady[/color]
+
+[img=32x32]res://icons/attack.png[/img] [b]Attack:[/b] [color=lightblue]70[/color]
+[img=32x32]res://icons/defense.png[/img] [b]Defense:[/b] [color=lightgray]40[/color]
+[img=32x32]res://icons/range_defense.png[/img] [b]Ranged Defense:[/b] [color=lightgray]30[/color]
+
+[img=32x32]res://icons/melee_skill.png[/img] [b]Melee Skill:[/b] [color=gold]80[/color]
+[img=32x32]res://icons/ranged_skill.png[/img] [b]Ranged Skill:[/b] [color=gold]50[/color]
+
+[img=32x32]res://icons/initiative.png[/img] [b]Initiative:[/b] [color=purple]65[/color]
+
+[img=32x32]res://icons/armor.png[/img] [b]Armor:[/b] [color=gray]Body 90 / Head 70[/color]
+
+[hr]
+[size=14][b]Traits:[/b][/size]
+[b]* Seasoned[/b] - Gains +5 to resolve against fear effects.
+[b]* Battle-hardened[/b] - Takes 10% less damage from melee attacks.
+[b]* Reckless[/b] - +10% damage dealt, but -5 defense."
+
+[node name="ChoicePanel2" type="PanelContainer" parent="MarginContainer/ChoiceMenuVBox/ChoiceMarginContainer/ChoiceHBox"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_ryu0v")
+
+[node name="UnitInfoContainer2" type="VBoxContainer" parent="MarginContainer/ChoiceMenuVBox/ChoiceMarginContainer/ChoiceHBox/ChoicePanel2"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="UnitTexture" type="TextureRect" parent="MarginContainer/ChoiceMenuVBox/ChoiceMarginContainer/ChoiceHBox/ChoicePanel2/UnitInfoContainer2"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_cr4pe")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="UnitChoiceContainer" type="PanelContainer" parent="MarginContainer/ChoiceMenuVBox/ChoiceMarginContainer/ChoiceHBox/ChoicePanel2/UnitInfoContainer2"]
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="UnitInfoLabel" type="RichTextLabel" parent="MarginContainer/ChoiceMenuVBox/ChoiceMarginContainer/ChoiceHBox/ChoicePanel2/UnitInfoContainer2/UnitChoiceContainer"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "[center][b][color=yellow]Shieldbearer[/color][/b][/center]
+
+[b]Health:[/b] [color=red]85[/color]  
+[b]Stamina:[/b] [color=green]60[/color]  
+[b]Morale:[/b] [color=orange]Confident[/color]  
+
+[b]Attack:[/b] [color=lightblue]60[/color]  
+[b]Defense:[/b] [color=lightgray]55[/color]  
+[b]Ranged Defense:[/b] [color=lightgray]45[/color]  
+
+[b]Melee Skill:[/b] [color=gold]75[/color]  
+[b]Ranged Skill:[/b] [color=gold]40[/color]  
+
+[b]Initiative:[/b] [color=purple]50[/color]  
+
+[b]Armor:[/b] [color=gray]Body 110 / Head 80[/color]  
+
+[hr]
+[size=14][b]Traits:[/b][/size]  
+[b]* Shield Expert[/b] - Gains +10 to defense when using a shield.  
+[b]* Stoic[/b] - Less likely to panic when allies fall.  
+[b]* Slow[/b] - Reduced initiative (-10).  "
