@@ -1,7 +1,6 @@
 extends TileMapLayer
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var dimensions : Vector2i = get_used_rect().size
 	var tile_size : Vector2 = tile_set.tile_size

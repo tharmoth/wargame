@@ -14,12 +14,10 @@ var _selected_combat : Array[Unit] = []
 var _team1 : Array[Unit] = []
 var _team2 : Array[Unit] = []
 
-
 var _phases : Array = ["Duel", "Knockback", "Strike", "End"]
 var _current_phase : String = "Duel"
 var _winners : Array[Unit] = []
 var _losers : Array[Unit] = []
-
 
 func can_end_phase() -> bool:
 	return _combats.is_empty()
@@ -63,7 +61,6 @@ func mouse_pressed(global_position : Vector2) -> void:
 				_team1 = team_result[0]
 				_team2 = team_result[1]
 
-
 				GUI.show_fight_gui([_team1[0].stats], [_team2[0].stats])
 
 				# Pause Here and display on gui until space pressed
@@ -103,7 +100,6 @@ func _clean_up_combat() -> void:
 		unit.draw_fights(empty)
 		unit.draw_supports(empty)
 		unit.activated()
-
 
 func _get_team_fight_value(team : Array[Unit]) -> int:
 	var fight_value : int = 0

@@ -24,12 +24,10 @@ var tween : Tween = null
 
 func _enter_tree() -> void:
 	Instance = self
-
 	
 func _ready() -> void:
 	get_viewport().size_changed.connect(func() -> void: viewport_size = get_viewport().size)
 	add_child(listener)
-
 
 func _physics_process(delta : float) -> void:
 	if not focused:

@@ -566,6 +566,7 @@ text = "- Activate a Unit -"
 horizontal_alignment = 1
 
 [node name="NextButton" type="Button" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 4

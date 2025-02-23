@@ -35,6 +35,7 @@ static func show_cutoff_row(strike_rolls : Array[int], hit_cutoff : int) -> void
 
 static func show_sum_row(rolls : Array[int], sum : int, cutoff : int) -> void:
 	instance._show_sum_row(rolls, sum, cutoff)
+
 #
 # Godot Methods
 #
@@ -42,7 +43,6 @@ func _ready() -> void:
 	%RollButton.connect("pressed", _button_pressed)
 
 func _button_pressed() -> void:
-	print("Button Pressed")
 	var audio : AudioStreamPlayer2D = %DiceRoll
 	audio.play()
 	TurnManager.button_pressed()
@@ -51,8 +51,10 @@ func _process(delta : float) -> void:
 	if Input.is_action_just_pressed("space"):
 		if %FightGui.visible:
 			_button_pressed()
-		else:
+		elif TurnManager.Instance.current_phase.can_end_phase():
 			TurnManager.end_phase()
+		else:
+			_button_pressed()
 
 #
 # Private
@@ -75,7 +77,7 @@ func _show_message(message : String) -> void:
 	%RollContainer.move_child(roll_row, 0)
 
 func _show_button(message : String) -> void:
-	pass
+	%NextButton.text = message
 
 func _show_duel_row(team1 : Array[int], team2 : Array[int], winner : String, team1_highlight_index : int, team2_highlight_index : int) -> void:
 	var duel_row : DuelRow = DuelRow.scene.instantiate()
@@ -85,7 +87,9 @@ func _show_duel_row(team1 : Array[int], team2 : Array[int], winner : String, tea
 
 func _show_fight_gui(team1 : Array[Stats], team2 : Array[Stats]) -> void:
 	%FightGui.visible = true
-	%Player1Stats.show_stats(team1[0])
+	%Player1Stats.set_hidden(team1.size() == 0)
+	if team1.size() > 0:
+		%Player1Stats.show_stats(team1[0])
 	%Player2Stats.set_hidden(team2.size() == 0)
 	if team2.size() > 0:
 		%Player2Stats.show_stats(team2[0])

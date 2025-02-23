@@ -3,9 +3,11 @@ class_name TurnManager extends Button
 static var Instance : TurnManager
 
 var current_phase : BasePhase = null
-var phases : Array = []
+var player1_phases : Array = []
+var player2_phases : Array = []
 var next_phase_requested : bool = false
 var battle : Battle = Battle.new()
+var player1_priority : bool = true
 
 # 
 # Public
@@ -35,59 +37,72 @@ func _enter_tree() -> void:
 	Instance = self
 
 func _ready() -> void:
+	var priorityPhase : PriorityPhase = PriorityPhase.new()
+	priorityPhase.name = "priority"
+	
 	var couragePhase : CouragePhase = CouragePhase.new()
 	couragePhase.team = "player1"
 	couragePhase.name = "courage"
-	phases.append(couragePhase)
 
 	var player2couragePhase : CouragePhase = CouragePhase.new()
 	player2couragePhase.team = "player2"
 	player2couragePhase.name = "courage"
-	phases.append(player2couragePhase)
-
+	
 	var player1movement : MovementPhase = MovementPhase.new()
 	player1movement.team = "player1"
 	player1movement.name = "movement"
-	phases.append(player1movement)
 	
 	var player2movement : AIMovementPhase = AIMovementPhase.new()
 	player2movement.team = "player2"
 	player2movement.name = "movement"
-	phases.append(player2movement)
-
-	# var shootPhase : ShootPhase = ShootPhase.new()
-	# shootPhase.team = "player1"
-	# shootPhase.name = "Player 1 Shoot"
-	# phases.append(shootPhase)
 	
 	var pairOffPhase : PairOffPhase = PairOffPhase.new()
 	pairOffPhase.name = "pair"
-	phases.append(pairOffPhase)
 	
-	var supportPhase : SupportPhase = SupportPhase.new()
-	supportPhase.get_combats = pairOffPhase.get_combats
-	supportPhase.name = "support"
-	phases.append(supportPhase)
+	var player1supportPhase : SupportPhase = SupportPhase.new()
+	player1supportPhase.get_combats = pairOffPhase.get_combats
+	player1supportPhase.name = "support"
 	
-	var supportPhase2 : AISupportPhase = AISupportPhase.new()
-	supportPhase2.get_combats = pairOffPhase.get_combats
-	supportPhase2.team = "player2"
-	supportPhase2.name = "support"
-	phases.append(supportPhase2)
+	var player2SupportPhase : AISupportPhase = AISupportPhase.new()
+	player2SupportPhase.get_combats = pairOffPhase.get_combats
+	player2SupportPhase.team = "player2"
+	player2SupportPhase.name = "support"
 	
 	var fightPhase : FightPhase = FightPhase.new()
 	fightPhase.get_combats = pairOffPhase.get_combats
-	fightPhase.get_supports1 = supportPhase.get_supports
-	fightPhase.get_supports2 = supportPhase2.get_supports
+	fightPhase.get_supports1 = player1supportPhase.get_supports
+	fightPhase.get_supports2 = player2SupportPhase.get_supports
 	fightPhase.name = "fight"
-	phases.append(fightPhase)
-
+	
 	var cleanupPhase : CleanupPhase = CleanupPhase.new()
 	cleanupPhase.name = "cleanup"
-	phases.append(cleanupPhase)
+	
+	player1_phases.append(priorityPhase)
+	player1_phases.append(couragePhase)
+	player1_phases.append(player2couragePhase)
+	player1_phases.append(player1movement)
+	player1_phases.append(player2movement)
+	player1_phases.append(pairOffPhase)
+	player1_phases.append(player1supportPhase)
+	player1_phases.append(player2SupportPhase)
+	player1_phases.append(fightPhase)
+	player1_phases.append(cleanupPhase)
+
+	player2_phases.append(priorityPhase)
+	player2_phases.append(player2couragePhase)
+	player2_phases.append(couragePhase)
+	player2_phases.append(player2movement)
+	player2_phases.append(player1movement)
+	player2_phases.append(pairOffPhase)
+	player2_phases.append(player2SupportPhase)
+	player2_phases.append(player1supportPhase)
+	player2_phases.append(fightPhase)
+	player2_phases.append(cleanupPhase)
 
 	battle.player_1_starting_count = WargameUtils.get_units("player1").size()
 	battle.player_2_starting_count = WargameUtils.get_units("player2").size()
+	
+	end_phase()
 	
 func _pressed() -> void:
 	end_phase()
@@ -129,18 +144,31 @@ func _do_end_phase() -> void:
 	if current_phase != null and not current_phase.can_end_phase():
 		return
 
-	var current_index : int = phases.find(current_phase)
-	if current_index == len(phases) - 1:
-		current_index = 0
-		GUI.play_audio(GUI.Sound.TURN)
+	var current_index : int 
+	if player1_priority:
+		current_index = player1_phases.find(current_phase)
+		if current_index == len(player1_phases) - 1:
+			current_index = 0
+			GUI.play_audio(GUI.Sound.TURN)
+		else:
+			current_index += 1
 	else:
-		current_index += 1
+		current_index = player2_phases.find(current_phase)
+		if current_index == len(player2_phases) - 1:
+			current_index = 0
+			GUI.play_audio(GUI.Sound.TURN)
+		else:
+			current_index += 1
 		
 	if current_phase != null:
-		current_phase.end_phase()	
-	current_phase = phases[current_index]
-	current_phase.start_phase()
+		current_phase.end_phase()
 	
+	if player1_priority:
+		current_phase = player1_phases[current_index]
+	else:
+		current_phase = player2_phases[current_index]
+		
+	current_phase.start_phase()
 	%PhaseGui.set_current_phase(current_phase.name)
 
 func _end_battle() -> void:
