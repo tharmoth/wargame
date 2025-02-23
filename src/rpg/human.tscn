@@ -1,33 +1,33 @@
-[gd_scene load_steps=5 format=3 uid="uid://b37ghh2g33fmw"]
+[gd_scene load_steps=5 format=3 uid="uid://chq7bhahdncm5"]
 
-[ext_resource type="Script" path="res://src/unit.gd" id="1_y61sw"]
-[ext_resource type="Texture2D" uid="uid://k5afcyyhovku" path="res://data/goblin_token.png" id="2_5ikvt"]
-[ext_resource type="Script" path="res://src/stats.gd" id="2_itk8f"]
+[ext_resource type="Script" path="res://src/rpg/unit.gd" id="1_qb51t"]
+[ext_resource type="Script" path="res://src/rpg/stats.gd" id="2_3w3vi"]
+[ext_resource type="Texture2D" uid="uid://dpdyhproqirjd" path="res://data/human_token.png" id="2_bs4o6"]
 
-[sub_resource type="Resource" id="Resource_dnlab"]
+[sub_resource type="Resource" id="Resource_jjmvn"]
 resource_local_to_scene = true
-script = ExtResource("2_itk8f")
-unit_name = "Warrior of Minas Tirith"
-items = Array[String](["sword", "shield"])
-movement = 6
-fight_value = 4
+script = ExtResource("2_3w3vi")
+unit_name = "Mysterous Stranger"
+items = Array[String]([])
+movement = 5
+fight_value = 2
 strength = 3
-defense = 6
+defense = 5
 attacks = 1
 wounds = 1
 courage = 6
 
-[node name="Unit" type="Node2D"]
+[node name="Unit4" type="Node2D"]
 z_index = 1
-script = ExtResource("1_y61sw")
-team = null
-stats = SubResource("Resource_dnlab")
+position = Vector2(612, 229)
+script = ExtResource("1_qb51t")
+team = "player2"
+stats = SubResource("Resource_jjmvn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-show_behind_parent = true
 z_index = -1
 scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_5ikvt")
+texture = ExtResource("2_bs4o6")
 
 [node name="Clickbox" type="Area2D" parent="."]
 

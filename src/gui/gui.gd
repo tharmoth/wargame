@@ -6,7 +6,8 @@ enum Sound {
 	STAB,
 	MISS,
 	TURN,
-	WALK
+	WALK,
+	ROLL
 }
 
 func _enter_tree() -> void:
@@ -43,18 +44,11 @@ func _ready() -> void:
 	%RollButton.connect("pressed", _button_pressed)
 
 func _button_pressed() -> void:
-	var audio : AudioStreamPlayer2D = %DiceRoll
-	audio.play()
 	TurnManager.button_pressed()
 
 func _process(delta : float) -> void:
 	if Input.is_action_just_pressed("space"):
-		if %FightGui.visible:
-			_button_pressed()
-		elif TurnManager.Instance.current_phase.can_end_phase():
-			TurnManager.end_phase()
-		else:
-			_button_pressed()
+		_button_pressed()
 
 #
 # Private
@@ -69,6 +63,8 @@ func _play_audio(sound : Sound) -> void:
 			%TurnAudio.play()
 		Sound.WALK:
 			%WalkAudio.play()
+		Sound.ROLL:
+			%RollAudio.play()
 
 func _show_message(message : String) -> void:
 	var roll_row : RollRow = RollRow.scene.instantiate()
