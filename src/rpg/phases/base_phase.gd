@@ -21,7 +21,7 @@ func mouse_pressed(global_position : Vector2) -> void:
 	pass
 
 func button_pressed() -> void:
-	pass
+	TurnManager.end_phase()
 
 func can_end_phase() -> bool:
 	return true

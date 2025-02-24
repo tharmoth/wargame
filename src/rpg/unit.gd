@@ -56,6 +56,7 @@ func get_components(type : String) -> Array[Variant]:
 
 func kill() -> void:
 	SKTileMap.Instance.clear_entity(self)
+	WargameUtils.units.remove_at(WargameUtils.units.find(self))
 	if _bob_tween != null:
 		_bob_tween.kill()
 	
@@ -66,6 +67,7 @@ func kill() -> void:
 func flee() -> void:
 	var target : Vector2i = get_map_position()
 	SKTileMap.Instance.clear_entity(self)
+	WargameUtils.units.remove_at(WargameUtils.units.find(self))
 	if team == "player1":
 		target = Vector2i(-1, target.y + randi_range(-20, 20))
 	else:
@@ -155,10 +157,13 @@ func _ready() -> void:
 	
 	move_to(SKTileMap.Instance.global_to_map(global_position))
 	
+	WargameUtils.units.append(self)
 	add_to_group("unit")
 
 	var blackboard : AIBlackboard = AIBlackboard.new()
 	add_component(blackboard)
+
+	
 
 func _process(delta : float) -> void:
 	if global_position != _target_position:

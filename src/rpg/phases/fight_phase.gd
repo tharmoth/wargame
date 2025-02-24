@@ -153,7 +153,8 @@ func _duel(team1 : Array[Unit], team2 : Array[Unit]) -> Array[Array]:
 		losers = team1
 	
 	GUI.show_duel_row(team_1_result, team_2_result, winners[0].team, team_1_result.find(team_1_max), team_2_result.find(team_2_max))
-
+	GUI.play_audio(GUI.Sound.IMPACT)
+	
 	return [winners, losers]
 
 func _get_valid_movement_options(unit : Unit) -> Array[Vector2i]:

@@ -32,7 +32,7 @@ func mouse_over(unit : Unit) -> void:
 
 func mouse_exit(unit : Unit) -> void:
 	unit.unhighlight()
-	
+
 func mouse_pressed(global_position : Vector2) -> void:
 	var map_position : Vector2i = SKTileMap.Instance.global_to_map(global_position)
 	if _selected_unit == null:

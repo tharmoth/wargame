@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bfj3wyamp6pf1"
+path="res://.godot/imported/forest - wind, birds.wav-44bb95c75548d86569fcd77491281659.sample"
+
+[deps]
+
+source_file="res://data/sfx/ambiance/forest - wind, birds.wav"
+dest_files=["res://.godot/imported/forest - wind, birds.wav-44bb95c75548d86569fcd77491281659.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -3,6 +3,13 @@ class_name StrikelRow extends PanelContainer
 # Hardcoded Scene Import
 static var scene : PackedScene = preload("res://src/gui/strike_row.tscn")
 
+static var dice_textures : Array[CompressedTexture2D] = [preload("res://data/ui/die1.png"),
+													preload("res://data/ui/die2.png"),
+													preload("res://data/ui/die3.png"),
+													preload("res://data/ui/die4.png"),
+													preload("res://data/ui/die5.png"),
+													preload("res://data/ui/die6.png")]
+
 func set_sum_message(strike_rolls: Array[int], sum : int, hit_cutoff : int) -> void:
 	%ToHitLabel.text = "Rally " + str(hit_cutoff) + "+"
 
@@ -10,12 +17,10 @@ func set_sum_message(strike_rolls: Array[int], sum : int, hit_cutoff : int) -> v
 		var dice_texture : TextureRect = TextureRect.new()
 		dice_texture.custom_minimum_size = Vector2(30, 30)
 		dice_texture.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-		dice_texture.texture = load("res://data/ui/die" + str(strike_rolls[i]) + ".png")
-		if sum >= hit_cutoff:
-			dice_texture.self_modulate = Utils.BLUE
-		else:
-			dice_texture.self_modulate = Color.WHITE
+
 		%DieContainer.add_child(dice_texture)
+
+		DuelRow.play_roll_animation(strike_rolls[i], dice_texture, Utils.BLUE if sum >= hit_cutoff else Color.WHITE)
 
 	var count : int = 0
 	for roll : int in strike_rolls:
@@ -35,12 +40,9 @@ func set_cutoff_message(strike_rolls: Array[int], hit_cutoff : int) -> void:
 		var dice_texture : TextureRect = TextureRect.new()
 		dice_texture.custom_minimum_size = Vector2(30, 30)
 		dice_texture.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-		dice_texture.texture = load("res://data/ui/die" + str(strike_rolls[i]) + ".png")
-		if strike_rolls[i] >= hit_cutoff:
-			dice_texture.self_modulate = Utils.BLUE
-		else:
-			dice_texture.self_modulate = Color.WHITE
+
 		%DieContainer.add_child(dice_texture)
+		DuelRow.play_roll_animation(strike_rolls[i], dice_texture, Utils.BLUE if strike_rolls[i] >= hit_cutoff else Color.WHITE)
 
 	var count : int = 0
 	for roll : int in strike_rolls:
@@ -48,3 +50,5 @@ func set_cutoff_message(strike_rolls: Array[int], hit_cutoff : int) -> void:
 			count += 1
 
 	%CountLabel.text = str(count) + "/" + str(strike_rolls.size())
+
+

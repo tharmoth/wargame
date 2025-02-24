@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=4 uid="uid://b04ht6lcp6bll"]
+[gd_scene load_steps=63 format=4 uid="uid://b04ht6lcp6bll"]
 
 [ext_resource type="Texture2D" uid="uid://0vatctgjeqkt" path="res://data/Tileset.png" id="1_4hsw7"]
 [ext_resource type="PackedScene" uid="uid://b37ghh2g33fmw" path="res://src/rpg/unit.tscn" id="2_2v1yl"]
@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://ynqhuujy1oem" path="res://data/MT_Sword.png" id="4_r5m01"]
 [ext_resource type="Script" path="res://src/rpg/stats.gd" id="4_urjio"]
 [ext_resource type="Texture2D" uid="uid://8odra3nmg2jh" path="res://data/MT_Spear.png" id="5_08co2"]
-[ext_resource type="Script" path="res://src/gui/next_turn_button.gd" id="5_jd13d"]
 [ext_resource type="Texture2D" uid="uid://dhphmvt7kkqj1" path="res://data/MT_Banner.png" id="6_bxqvr"]
 [ext_resource type="Texture2D" uid="uid://bkr75yb0fwak3" path="res://data/MG_Sword_token.png" id="8_i1ja1"]
 [ext_resource type="Texture2D" uid="uid://ctul66n8lheb1" path="res://data/MG_Spear_token.png" id="9_jwldu"]
@@ -34,6 +33,9 @@
 [ext_resource type="AudioStream" uid="uid://ceoeg81wq4vws" path="res://data/sfx/footsteps/footstep dirt 3.wav" id="29_1j5su"]
 [ext_resource type="AudioStream" uid="uid://cv08ttyf3fot7" path="res://data/sfx/footsteps/footstep dirt 4.wav" id="30_l4yqq"]
 [ext_resource type="AudioStream" uid="uid://didm2pylfcrp7" path="res://data/sfx/footsteps/footstep dirt 5.wav" id="31_du64i"]
+[ext_resource type="AudioStream" uid="uid://bfj3wyamp6pf1" path="res://data/sfx/ambiance/forest - wind, birds.wav" id="33_tux7m"]
+[ext_resource type="Script" path="res://src/rpg/phases/turn_manager.gd" id="34_dwfbh"]
+[ext_resource type="AudioStream" uid="uid://di6oh6lbeo72u" path="res://data/sfx/stab/zapsplat_foley_boots_wellington_rubber_pair_set_down_grass_001_105602.mp3" id="34_gyufn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_unfa5"]
 texture = ExtResource("1_4hsw7")
@@ -572,7 +574,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 focus_mode = 0
 text = "[Space] Skip Phase"
-script = ExtResource("5_jd13d")
 
 [node name="Player2Info" type="Label" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -719,10 +720,23 @@ max_polyphony = 20
 unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_6xkd4")
 
+[node name="AmbianceAudio" type="AudioStreamPlayer" parent="Gui"]
+stream = ExtResource("33_tux7m")
+volume_db = -30.0
+autoplay = true
+
+[node name="ImpactAudio" type="AudioStreamPlayer" parent="Gui"]
+unique_name_in_owner = true
+stream = ExtResource("34_gyufn")
+volume_db = -10.0
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(1554, 782)
 zoom = Vector2(0.5, 0.5)
 script = ExtResource("17_xtrf0")
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("34_dwfbh")
 
 [editable path="Unit"]
 [editable path="Unit5"]

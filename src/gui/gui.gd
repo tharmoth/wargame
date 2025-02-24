@@ -7,7 +7,8 @@ enum Sound {
 	MISS,
 	TURN,
 	WALK,
-	ROLL
+	ROLL,
+	IMPACT
 }
 
 func _enter_tree() -> void:
@@ -37,11 +38,18 @@ static func show_cutoff_row(strike_rolls : Array[int], hit_cutoff : int) -> void
 static func show_sum_row(rolls : Array[int], sum : int, cutoff : int) -> void:
 	instance._show_sum_row(rolls, sum, cutoff)
 
+static func set_current_phase(phase : String) -> void:
+	instance._set_current_phase(phase)
+
+static func show_battle_over() -> void:
+	instance._show_battle_over()
+
 #
 # Godot Methods
 #
 func _ready() -> void:
 	%RollButton.connect("pressed", _button_pressed)
+	%NextButton.connect("pressed", _button_pressed)
 
 func _button_pressed() -> void:
 	TurnManager.button_pressed()
@@ -49,7 +57,7 @@ func _button_pressed() -> void:
 func _process(delta : float) -> void:
 	if Input.is_action_just_pressed("space"):
 		_button_pressed()
-
+	
 #
 # Private
 #
@@ -65,6 +73,8 @@ func _play_audio(sound : Sound) -> void:
 			%WalkAudio.play()
 		Sound.ROLL:
 			%RollAudio.play()
+		Sound.IMPACT:
+			%ImpactAudio.play()
 
 func _show_message(message : String) -> void:
 	var roll_row : RollRow = RollRow.scene.instantiate()
@@ -104,3 +114,9 @@ func _show_sum_row(rolls : Array[int], sum : int, cutoff : int) -> void:
 	sum_row.set_sum_message(rolls, sum, cutoff)
 	%RollContainer.add_child(sum_row)
 	%RollContainer.move_child(sum_row, 0)
+
+func _set_current_phase(phase : String) -> void:
+	%PhaseGui.set_current_phase(phase)
+
+func _show_battle_over() -> void:
+	%BattleCompleteGui.show()

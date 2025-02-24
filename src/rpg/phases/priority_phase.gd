@@ -1,7 +1,7 @@
 class_name PriorityPhase extends BasePhase
 
 var _phases : Array = ["show", "roll", "end"]
-var _current_phase : String = "duel"
+var _current_phase : String = "show"
 
 func start_phase() -> void:
 	_current_phase = "show"
@@ -15,9 +15,16 @@ func button_pressed() -> void:
 		GUI.show_fight_gui([], [])
 		_current_phase = "roll"
 	elif _current_phase == "roll":
-		var roll : int = Utils.roll_dice("1d6")
-		GUI.show_cutoff_row([roll], 4)
-		TurnManager.Instance.player1_priority = roll > 3
+		var player1_roll : int = Utils.roll_dice("1d6")
+		var player2_roll : int = Utils.roll_dice("1d6")
+
+		var winner : String = "player1" if player1_roll >= player2_roll else "player2"
+
+		GUI.show_duel_row([player1_roll], [player2_roll], winner, 0, 0)
+
+
+
+		TurnManager.Instance.player1_priority = player1_roll >= player2_roll
 		_current_phase = "end"
 	else:
 		GUI.hide_fight_gui()
