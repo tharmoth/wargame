@@ -21,7 +21,6 @@ func start_phase() -> void:
 
 	if player_1_current_units <= player_1_starting_units * 0.25:
 		is_complete = true
-		print("Player 1 is quartered")
 		TurnManager.end_battle()
 	elif player_2_current_units <= player_2_starting_units * 0.25:
 		is_complete = true

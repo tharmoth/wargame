@@ -73,7 +73,6 @@ func move_to_support(units : Array[Unit]) -> void:
 		if enemy_targeted != null:
 			unit.draw_fights([enemy_targeted.get_map_position()])
 			continue
-		print("Nowhere found to move, remaining stationary")
 
 func _sort_by_distance(origin : Vector2i, a : Unit, b : Unit) -> bool:
 	return SKTileMap.Instance.map_distance(origin, a.get_map_position()) < SKTileMap.Instance.map_distance(origin, b.get_map_position())

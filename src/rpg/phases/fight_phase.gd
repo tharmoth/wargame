@@ -48,7 +48,6 @@ func mouse_exit(unit : Unit) -> void:
 	
 func mouse_pressed(global_position : Vector2) -> void:
 	if _current_phase != "Duel" or not _selected_combat.is_empty():
-		print(_current_phase)
 		return
 	var map_position : Vector2i = SKTileMap.Instance.global_to_map(global_position)
 	var unit : Unit = SKTileMap.Instance.get_entity_at_position(map_position)
@@ -129,26 +128,20 @@ func _duel(team1 : Array[Unit], team2 : Array[Unit]) -> Array[Array]:
 	var player_1_wins_tie : bool = false
 	if team_1_max == team_2_max:
 		if team_1_fight_value == team_2_fight_value:
-			print("Duel tied with equal fight values!")
 			var tie_roll : int = Utils.roll_dice("1d6")
-			print("Tie Roll: " + str(tie_roll))
 			if tie_roll > 3:
 				player_1_wins_tie = true
 		elif team_1_fight_value > team_2_fight_value:
 			player_1_wins_tie = true
-			print("Player 1 wins tie due to fight value: " + str(team_1_fight_value) + " vs " + str(team_2_fight_value))
 		else:
 			player_1_wins_tie = false
-			print("Player 2 wins tie due to fight value: " + str(team_2_fight_value) + " vs " + str(team_1_fight_value))
 
 	var winners : Array[Unit] = []
 	var losers : Array[Unit] = []
 	if team_1_max > team_2_max or (team_1_max == team_2_max and player_1_wins_tie):
-		print("Player 1 Won the Duel")
 		winners = team1
 		losers = team2
 	else:
-		print("Player 2 Won the Duel")
 		winners = team2
 		losers = team1
 	

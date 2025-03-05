@@ -111,7 +111,6 @@ func _pressed() -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("left_click") and current_phase != null:
 		current_phase.mouse_pressed(SKTileMap.Instance.get_global_mouse_position())
-	# print(str(next_phase_requested) + " " + str(_all_animations_finished()))
 	if next_phase_requested and _all_animations_finished():
 		next_phase_requested = false  
 		_do_end_phase()

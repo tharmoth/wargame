@@ -42,7 +42,6 @@ func remove_component(component : Variant) -> void:
 
 func get_component(type : String) -> Variant:
 	for component : Variant in _components:
-		print(component.get_type())
 		if component.get_type() == type:
 			return component
 	return null

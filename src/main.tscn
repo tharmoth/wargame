@@ -326,7 +326,6 @@ stream_1/stream = ExtResource("16_kebbf")
 stream_2/stream = ExtResource("17_l51fq")
 
 [node name="Node2D" type="Node2D"]
-position = Vector2(1, 0)
 
 [node name="Background" type="TileMapLayer" parent="."]
 z_index = -101

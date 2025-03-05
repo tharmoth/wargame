@@ -92,8 +92,6 @@ func _auto_support() -> void:
 		if len(adjacent_combats) == 1:
 			_selected_unit = unit
 			_attempt_support(adjacent_in_combat[0], unit)
-		else:
-			print("Cannot autosupport?")
 
 func _attempt_support(unit : Unit, supporter : Unit) -> void:
 	var adjacent_units : Array[Unit] = SKTileMap.get_adjacent_units_of_team(supporter.get_map_position(), supporter.team)
@@ -113,7 +111,7 @@ func _attempt_support(unit : Unit, supporter : Unit) -> void:
 		if _units_to_pair.is_empty():
 			TurnManager.end_phase()
 	else:
-		print("Trying to support a unit that is not in combat")
+		printerr("Trying to support a unit that is not in combat")
 
 func _draw_supports() -> void:
 	_clear_drawn_supports()

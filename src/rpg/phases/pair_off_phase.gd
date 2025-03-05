@@ -169,8 +169,6 @@ func _draw_combats() -> void:
 			
 		for unit : Unit in team2:
 			unit.draw_fights(team1pos)
-			
-		print(debug_string)
 
 func _add_to_combat(unit_a : Unit, unit_b : Unit) -> void:
 	var found : bool = false
