@@ -50,5 +50,3 @@ func set_cutoff_message(strike_rolls: Array[int], hit_cutoff : int) -> void:
 			count += 1
 
 	%CountLabel.text = str(count) + "/" + str(strike_rolls.size())
-
-

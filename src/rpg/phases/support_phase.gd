@@ -67,6 +67,8 @@ func mouse_pressed(global_position : Vector2) -> void:
 		var unit_clicked : Unit = SKTileMap.Instance.get_entity_at_position(map_position)
 		
 		_attempt_support(unit_clicked, _selected_unit)
+	if _units_to_pair.is_empty():
+		TurnManager.end_phase()
 		
 #
 # Private

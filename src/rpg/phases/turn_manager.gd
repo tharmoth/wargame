@@ -172,3 +172,4 @@ func _do_end_phase() -> void:
 
 func _end_battle() -> void:
 	GUI.show_battle_over()
+

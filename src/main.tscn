@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=4 uid="uid://b04ht6lcp6bll"]
+[gd_scene load_steps=66 format=4 uid="uid://b04ht6lcp6bll"]
 
 [ext_resource type="Texture2D" uid="uid://0vatctgjeqkt" path="res://data/Tileset.png" id="1_4hsw7"]
 [ext_resource type="PackedScene" uid="uid://b37ghh2g33fmw" path="res://src/rpg/unit.tscn" id="2_2v1yl"]
@@ -22,6 +22,8 @@
 [ext_resource type="Script" path="res://src/gui/player_info.gd" id="17_fpiss"]
 [ext_resource type="AudioStream" uid="uid://bc0ommhcdp18r" path="res://data/sfx/dice3.wav" id="17_l51fq"]
 [ext_resource type="Script" path="res://src/sk/pan_camera.gd" id="17_xtrf0"]
+[ext_resource type="AudioStream" uid="uid://b30dy7bgwi3qw" path="res://data/sfx/ui/rollover3.ogg" id="19_dxgiq"]
+[ext_resource type="Script" path="res://src/gui/button_pressed_player.gd" id="20_uuwsb"]
 [ext_resource type="AudioStream" uid="uid://b3bgd7by7weqk" path="res://data/sfx/stab/zapsplat_warfare_sword_blade_tip_stab_dig_into_earth_soil_mud_009_93653.mp3" id="21_y7mm8"]
 [ext_resource type="AudioStream" uid="uid://qcebp044kvem" path="res://data/sfx/stab/zapsplat_warfare_sword_stab_into_body_flesh_light_squelch_93748.mp3" id="22_3w8ta"]
 [ext_resource type="AudioStream" uid="uid://byi6224j541q4" path="res://data/sfx/swing/swing.wav" id="23_v0bq3"]
@@ -199,7 +201,7 @@ courage = 6
 resource_local_to_scene = true
 script = ExtResource("4_urjio")
 unit_name = "Moria Goblin"
-items = Array[String](["spear"])
+items = Array[String](["spear", "banner"])
 icon = ExtResource("9_jwldu")
 movement = 5
 fight_value = 2
@@ -295,6 +297,10 @@ courage = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brkq5"]
 bg_color = Color(0.147672, 0.147672, 0.147672, 0.415686)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jspv4"]
+streams_count = 1
+stream_0/stream = ExtResource("19_dxgiq")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_t518l"]
 streams_count = 2
@@ -574,6 +580,10 @@ size_flags_horizontal = 4
 focus_mode = 0
 text = "[Space] Skip Phase"
 
+[node name="PressedPlayer" type="AudioStreamPlayer" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/NextButton"]
+stream = SubResource("AudioStreamRandomizer_jspv4")
+script = ExtResource("20_uuwsb")
+
 [node name="Player2Info" type="Label" parent="Gui/Control/NextPhaseGui/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -622,7 +632,8 @@ size_flags_vertical = 3
 [node name="HBoxContainer" type="HBoxContainer" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
+[node name="FightGuiTitleLabel" type="Label" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Duel Roll"
 
@@ -630,7 +641,8 @@ text = "Duel Roll"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
+[node name="FightGuiActionLabel" type="Label" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Highest Roll Wins"
 
@@ -654,6 +666,10 @@ size_flags_horizontal = 4
 focus_mode = 0
 text = "[Space] Roll To Duel
 "
+
+[node name="PressedPlayer" type="AudioStreamPlayer" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox/PanelContainer2/MarginContainer/RollButton"]
+stream = ExtResource("19_dxgiq")
+script = ExtResource("20_uuwsb")
 
 [node name="HSeparator" type="HSeparator" parent="Gui/Control/NextPhaseGui/FightGui/Center/PanelContainer/MarginContainer/Statsbox"]
 layout_mode = 2
