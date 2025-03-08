@@ -33,7 +33,7 @@ func start_phase() -> void:
 
 func move_randomly(units : Array[Unit]) -> void:
 	for unit : Unit in units:
-		var tiles : Array[Vector2i] = Movement.get_valid_tiles(unit, false)
+		var tiles : Array[Vector2i] = Movement.get_valid_tiles(unit)
 		if tiles.is_empty():
 			continue
 		else:
@@ -54,9 +54,8 @@ func move_to_support(units : Array[Unit]) -> void:
 		var in_melee_not_supported : Array[Unit] = in_melee.filter(func(x: Unit) -> bool: return x not in already_supported)
 		var not_supported : Array[Unit] = friendly_units.filter(func(x: Unit) -> bool: return x not in already_supported)
 		# First attempt to move to allies that are in melee and are not supported
-		unit_supported = move_to_nearest(unit, in_melee_not_supported)
+		unit_supported = move_to_nearest(unit, in_melee_not_supported, true)
 		if unit_supported != null:
-			unit.draw_supports([unit_supported.get_map_position()])
 			unit.get_component("AIBlackboard").set_value("supporting", unit_supported)
 			already_supported.append(unit_supported)
 			continue
@@ -96,9 +95,17 @@ func move_to_nearest_enemy(units : Array[Unit]) -> void:
 		
 # Attempt to move adjacent to the first possible unit in target_units, if possible
 # Returns true if a move was made, false otherwise
-func move_to_nearest(unit_to_move : Unit, target_units : Array[Unit]) -> Unit:
+func move_to_nearest(unit_to_move : Unit, target_units : Array[Unit], avoid_zoc : bool = false) -> Unit:
 	for target_unit : Unit in target_units:
-		var valid_tiles : Array[Vector2i] = Movement.get_valid_tiles(unit_to_move, false)
+		var valid_tiles : Array[Vector2i] = Movement.get_valid_tiles(unit_to_move)
+
+		if avoid_zoc:
+			var invalid_tiles : Array[Vector2i] = Movement.get_team_zoc(unit_to_move.team)
+			for tile : Vector2i in invalid_tiles:
+				if tile in valid_tiles:
+					valid_tiles.remove_at(valid_tiles.find(tile))
+
+
 		var target_tiles : Array[Vector2i] = []
 		for direction : Vector2i in SKTileMap.get_adjacent_cells(target_unit.get_map_position()):
 			if direction + target_unit.get_map_position() in valid_tiles:
@@ -125,7 +132,7 @@ func mouse_pressed(global_position : Vector2) -> void:
 	pass
 
 func _can_move_next_to(unit : Unit, map_pos : Vector2i) -> bool:
-	var valid_tiles : Array[Vector2i] = Movement.get_valid_tiles(unit, false)
+	var valid_tiles : Array[Vector2i] = Movement.get_valid_tiles(unit)
 	for direction : Vector2i in SKTileMap.get_adjacent_cells(map_pos):
 		if direction + map_pos in valid_tiles:
 			return true

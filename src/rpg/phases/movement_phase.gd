@@ -41,7 +41,7 @@ func mouse_pressed(global_position : Vector2) -> void:
 			unit.select()
 			_selected_unit = unit
 			
-			var tiles : Array[Vector2i] = Movement.get_valid_tiles(_selected_unit, false)
+			var tiles : Array[Vector2i] = Movement.get_valid_tiles(_selected_unit)
 			_selected_unit.draw_movement(tiles)
 	elif map_position in _selected_unit.tiles:
 		_selected_unit.move_to(map_position)
