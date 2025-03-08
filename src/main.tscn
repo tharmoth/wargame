@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=4 uid="uid://b04ht6lcp6bll"]
+[gd_scene load_steps=67 format=4 uid="uid://b04ht6lcp6bll"]
 
 [ext_resource type="Texture2D" uid="uid://0vatctgjeqkt" path="res://data/Tileset.png" id="1_4hsw7"]
 [ext_resource type="PackedScene" uid="uid://b37ghh2g33fmw" path="res://src/rpg/unit.tscn" id="2_2v1yl"]
@@ -23,6 +23,7 @@
 [ext_resource type="AudioStream" uid="uid://bc0ommhcdp18r" path="res://data/sfx/dice3.wav" id="17_l51fq"]
 [ext_resource type="Script" path="res://src/sk/pan_camera.gd" id="17_xtrf0"]
 [ext_resource type="AudioStream" uid="uid://b30dy7bgwi3qw" path="res://data/sfx/ui/rollover3.ogg" id="19_dxgiq"]
+[ext_resource type="Script" path="res://src/DistanceTest.gd" id="20_l7w0b"]
 [ext_resource type="Script" path="res://src/gui/button_pressed_player.gd" id="20_uuwsb"]
 [ext_resource type="AudioStream" uid="uid://b3bgd7by7weqk" path="res://data/sfx/stab/zapsplat_warfare_sword_blade_tip_stab_dig_into_earth_soil_mud_009_93653.mp3" id="21_y7mm8"]
 [ext_resource type="AudioStream" uid="uid://qcebp044kvem" path="res://data/sfx/stab/zapsplat_warfare_sword_stab_into_body_flesh_light_squelch_93748.mp3" id="22_3w8ta"]
@@ -591,6 +592,11 @@ text = "Player2 - 10/10 - 100%"
 horizontal_alignment = 1
 script = ExtResource("17_fpiss")
 player = 1
+
+[node name="Label" type="Label" parent="Gui/Control/NextPhaseGui"]
+layout_mode = 2
+text = "Test"
+script = ExtResource("20_l7w0b")
 
 [node name="FightGui" type="HBoxContainer" parent="Gui/Control/NextPhaseGui"]
 unique_name_in_owner = true

@@ -76,23 +76,23 @@ func get_tiles_in_radius(center: Vector2i, radius: float) -> Array[Vector2i]:
 		for x : int in range(left, right + 1):
 			result.append(Vector2i(x, y))
 	
-	return result
+	return map_range(center, radius)
 	
-func line(p0 : Vector2i, p1 : Vector2i) -> Array[Vector2i]:
-	var points : Array[Vector2i] = []
-	var n: int = diagonal_distance(p0, p1)
-	for step : int in range(0, n + 1):
-		var t: float = 0.0 if n == 0 else float(step) / float(n)
-		points.append(round_point(lerp(Vector2(p0), Vector2(p1), t)))
-	return points
+# func line(p0 : Vector2i, p1 : Vector2i) -> Array[Vector2i]:
+# 	var points : Array[Vector2i] = []
+# 	var n: int = diagonal_distance(p0, p1)
+# 	for step : int in range(0, n + 1):
+# 		var t: float = 0.0 if n == 0 else float(step) / float(n)
+# 		points.append(round_point(lerp(Vector2(p0), Vector2(p1), t)))
+# 	return points
 
-func diagonal_distance(p0 : Vector2i, p1 : Vector2i) -> int:
-	var dx: int = p1.x - p0.x
-	var dy: int = p1.y - p0.y
-	return maxi(absi(dx), absi(dy))
+# func diagonal_distance(p0 : Vector2i, p1 : Vector2i) -> int:
+# 	var dx: int = p1.x - p0.x
+# 	var dy: int = p1.y - p0.y
+# 	return maxi(absi(dx), absi(dy))
 
-func round_point(p : Vector2) -> Vector2i:
-	return Vector2i(roundi(p.x), roundi(p.y))
+# func round_point(p : Vector2) -> Vector2i:
+# 	return Vector2i(roundi(p.x), roundi(p.y))
 
 func get_adjacent_units(map_position : Vector2i) -> Array[Unit]:
 	var entities : Array[Unit] = []

@@ -52,7 +52,7 @@ func _ready() -> void:
 	player1movement.team = "player1"
 	player1movement.name = "movement"
 	
-	var player2movement : AIMovementPhase = AIMovementPhase.new()
+	var player2movement : MovementPhase = MovementPhase.new()
 	player2movement.team = "player2"
 	player2movement.name = "movement"
 	
